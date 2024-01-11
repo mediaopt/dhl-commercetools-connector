@@ -4,7 +4,7 @@ import { PERMISSIONS, entryPointUriPath } from './src/constants';
  * @type {import('@commercetools-frontend/application-config').ConfigOptionsForCustomApplication}
  */
 const config = {
-  name: 'Starter Typescript 33444c',
+  name: 'DHL Produkte & Services Commercetools ',
   entryPointUriPath,
   cloudIdentifier: 'gcp-eu',
   env: {
