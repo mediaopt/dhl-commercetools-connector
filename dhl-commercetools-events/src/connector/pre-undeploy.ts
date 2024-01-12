@@ -7,7 +7,7 @@ import { deleteCustomerCreateSubscription } from './actions';
 
 async function preUndeploy(): Promise<void> {
   const apiRoot = createApiRoot();
-  await deleteCustomerCreateSubscription(apiRoot);
+  // await deleteCustomerCreateSubscription(apiRoot);
 }
 
 async function run(): Promise<void> {
