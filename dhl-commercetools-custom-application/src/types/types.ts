@@ -1,14 +1,15 @@
 import { ChangeEvent } from 'react';
-import { LocalizedString } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/common';
+import { BaseAddress } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/common';
 
 export type SettingsFormDataType = {
-  name: LocalizedString;
+  return: BaseAddress;
+  dispatch: BaseAddress;
+  returnIsDispatch: boolean;
 };
 
-
-
 export type DHLSettingsType = {
-  values: SettingsFormDataType;
+  values: BaseAddress;
+  type: 'dispatch' | 'return';
   handleChange: {
     (e: ChangeEvent<any>): void;
     <T = string | ChangeEvent<any>>(field: T): T extends ChangeEvent<any>

@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Spacings from '@commercetools-uikit/spacings';
-import Channels from './components/channels';
 import Welcome from './components/welcome';
-import Settings from "./components/settings";
+import Settings from './components/settings';
 
 type ApplicationRoutesProps = {
   children?: ReactNode;
@@ -25,9 +24,6 @@ const ApplicationRoutes = (_props: ApplicationRoutesProps) => {
   return (
     <Spacings.Inset height="expanded" scale="l">
       <Switch>
-        <Route path={`${match.path}/channels`}>
-          <Channels linkToWelcome={match.url} />
-        </Route>
         <Route path={`${match.path}/settings`}>
           <Settings />
         </Route>

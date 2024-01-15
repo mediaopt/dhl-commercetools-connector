@@ -1,1 +1,18 @@
-{}
+{
+  "Welcome.title": "DHL Produkte & Services Commercetools",
+  "Welcome.subtitle": "",
+  "Welcome.cardSettings": "Einstellungen",
+  "Welcome.cardSettingsContent": "Hier können Sie die Absender- und Retourenadresse verwalten.",
+  "Settings.returnIsDispatch": "Retourenadresse ist gleich der Absenderadresse",
+  "Settings.streetName": "Straßenname",
+  "Settings.streetNumber": "Hausnummer",
+  "Settings.additionalStreetInfo": "zusätzliche Information",
+  "Settings.postalCode": "Postleitzahl",
+  "Settings.city": "Stadt",
+  "Settings.state": "Staat",
+  "Settings.country": "Land",
+  "Settings.company": "Firma",
+  "Settings.department": "Abteilung",
+  "Settings.pOBox": "Postfach",
+  "Settings.phone": "Telefonnummer"
+}

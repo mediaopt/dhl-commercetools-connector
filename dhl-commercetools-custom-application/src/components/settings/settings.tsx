@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Formik } from 'formik';
 import Spacings from '@commercetools-uikit/spacings';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import Text from '@commercetools-uikit/text';
-import TextField from "@commercetools-uikit/text-field";
-import LocalizedMultilineTextField from '@commercetools-uikit/localized-multiline-text-field';
+import CheckboxInput from '@commercetools-uikit/checkbox-input';
 
 import {
-  useFetchLanguages,
   useFetchSettings,
   useSetSettings,
 } from '../connector-hooks/use-customObject-connector';
@@ -21,11 +20,10 @@ import {
   GRAPHQL_CUSTOMOBJECT_KEY_NAME,
 } from '../../constants';
 import { DEFAULT_SETTINGS } from './defaultSettings';
-
+import AddressMask from './AddressMask';
 
 const Settings = () => {
   const [isReady, setIsReady] = useState<boolean>(false);
-  const [isLanguageReady, setIsLanguageReady] = useState<boolean>(false);
   const [customObjectVersion, setCustomObjectVersion] = useState<number>();
   const [settingsObject, setSettingsObject] =
     useState<SettingsFormDataType>(DEFAULT_SETTINGS);
@@ -33,7 +31,6 @@ const Settings = () => {
     GRAPHQL_CUSTOMOBJECT_KEY_NAME,
     GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME
   );
-  const { languages, languageError, languageLoading } = useFetchLanguages();
   const [setSettingsFunc] = useSetSettings();
 
   const saveSettings = (values: SettingsFormDataType) => {
@@ -53,17 +50,6 @@ const Settings = () => {
     });
   };
 
-  const setMissingLanguages = () => {
-    const filteredLanguages = languages?.filter(
-      (lang) => !Object.keys(settingsObject.name).includes(lang)
-    );
-    filteredLanguages.forEach((lang) => {
-      settingsObject.name[lang] = '';
-    });
-    setSettingsObject(settingsObject);
-    setIsReady(true);
-  };
-
   useEffect(() => {
     if (loading) {
       return;
@@ -73,20 +59,9 @@ const Settings = () => {
     } else {
       setCustomObjectVersion(customObject.version);
       setSettingsObject({ ...DEFAULT_SETTINGS, ...customObject.value });
-      setIsLanguageReady(true);
+      setIsReady(true);
     }
   }, [customObject, error, loading]);
-
-  useEffect(() => {
-    if (languageLoading || !isLanguageReady) {
-      return;
-    }
-    if (languageError) {
-      console.error(languageError);
-      return;
-    }
-    setMissingLanguages();
-  }, [languages, languageLoading, languageError, isLanguageReady]);
 
   if (!isReady) {
     return <></>;
@@ -103,27 +78,28 @@ const Settings = () => {
       {({ values, handleChange, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Spacings.Stack alignItems="stretch" scale="xl">
-            <Spacings.Stack scale="xs" alignItems="stretch">
+            <Spacings.Stack scale="xl" alignItems="stretch">
               <Text.Body>PayPal Button</Text.Body>
-              <Spacings.Inline
-                scale="m"
-                alignItems="center"
-                justifyContent="space-between"
+              <AddressMask
+                values={values.dispatch}
+                handleChange={handleChange}
+                type="dispatch"
+              />
+              <CheckboxInput
+                isChecked={values.returnIsDispatch}
+                onChange={handleChange}
+                value="returnIsDispatch"
+                name="returnIsDispatch"
               >
-                <TextField
-                  onChange={handleChange}
-                  title="Merchant ID"
-                  value={''}
-                  name="merchantId"
+                <FormattedMessage id="Settings.returnIsDispatch" />
+              </CheckboxInput>
+              {values.returnIsDispatch && (
+                <AddressMask
+                  values={values.return}
+                  type="return"
+                  handleChange={handleChange}
                 />
-                <LocalizedMultilineTextField
-                  title="Payment description"
-                  name="paymentDescription"
-                  value={values.name}
-                  selectedLanguage="en"
-                  onChange={handleChange}
-                />
-              </Spacings.Inline>
+              )}
             </Spacings.Stack>
             <Spacings.Inline
               scale="s"
@@ -131,15 +107,6 @@ const Settings = () => {
               justifyContent="flex-start"
             >
               <PrimaryButton label="save" type="submit" />
-              <PrimaryButton
-                label="reset current settings"
-                onClick={() => {
-                  saveSettings({
-                    ...values,
-                  });
-                }}
-                tone="critical"
-              />
             </Spacings.Inline>
           </Spacings.Stack>
         </form>
