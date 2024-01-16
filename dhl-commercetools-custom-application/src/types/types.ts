@@ -28,3 +28,5 @@ export type ApollonFetchedCustomObjectType = {
     createOrUpdateCustomObject: FetchedCustomObjectType;
   };
 };
+
+export type CountrySelectListType = Array<{ label: string; value: string }>;

@@ -1,9 +1,20 @@
-import { DHLSettingsType } from '../../types/types';
+import { CountrySelectListType, DHLSettingsType } from '../../types/types';
 import Spacings from '@commercetools-uikit/spacings';
 import TextField from '@commercetools-uikit/text-field';
 import { FormattedMessage } from 'react-intl';
+import SelectField from '@commercetools-uikit/select-field';
+import countries from 'i18n-iso-countries';
+countries.registerLocale(require('i18n-iso-countries/langs/en.json'));
 
 const AddressMask = ({ values, handleChange, type }: DHLSettingsType) => {
+  const names: Record<string, string> = countries.getNames('en');
+  const countrySelect: CountrySelectListType = [];
+  Object.keys(names).forEach((name) => {
+    if (names.hasOwnProperty(name)) {
+      countrySelect.push({ value: name, label: names[name] });
+    }
+  });
+
   return (
     <Spacings.Stack scale="s" alignItems="stretch">
       <Spacings.Inline
@@ -52,6 +63,13 @@ const AddressMask = ({ values, handleChange, type }: DHLSettingsType) => {
           title={<FormattedMessage id="Settings.state" />}
           value={values.state!}
           name={`${type}.state`}
+        />
+        <SelectField
+          onChange={handleChange}
+          title={<FormattedMessage id="Settings.country" />}
+          value={values.country}
+          options={countrySelect}
+          name={`${type}.country`}
         />
       </Spacings.Inline>
       <Spacings.Inline
