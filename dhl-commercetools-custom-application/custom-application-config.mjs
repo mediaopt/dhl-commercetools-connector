@@ -9,7 +9,7 @@ const config = {
   cloudIdentifier: '${env:CLOUD_IDENTIFIER}',
   env: {
     development: {
-      initialProjectKey: 'paypal-dev',
+      initialProjectKey: 'dhl-dev',
     },
     production: {
       applicationId: '${env:APPLICATION_ID}',

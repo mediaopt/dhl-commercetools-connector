@@ -93,7 +93,7 @@ const Settings = () => {
               >
                 <FormattedMessage id="Settings.returnIsDispatch" />
               </CheckboxInput>
-              {values.returnIsDispatch && (
+              {!values.returnIsDispatch && (
                 <AddressMask
                   values={values.return}
                   type="return"
