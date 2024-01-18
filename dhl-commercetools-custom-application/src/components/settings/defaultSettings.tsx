@@ -1,18 +1,16 @@
-import { BaseAddress } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/common';
-import { SettingsFormDataType } from '../../types/types';
+import { DhlAddress, SettingsFormDataType } from '../../types/types';
 
-const emptyAddress: BaseAddress = {
-  streetName: '',
-  streetNumber: '',
-  additionalStreetInfo: '',
+const emptyAddress: DhlAddress = {
+  name1: '',
+  name2: '',
+  name3: '',
+  addressStreet: '',
+  addressHouse: '',
   postalCode: '',
   city: '',
-  state: '',
   country: '',
-  company: '',
-  department: '',
-  pOBox: '',
-  phone: '',
+  contactName: '',
+  email: '',
 };
 
 export const DEFAULT_SETTINGS: SettingsFormDataType = {

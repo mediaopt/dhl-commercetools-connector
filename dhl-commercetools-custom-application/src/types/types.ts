@@ -1,14 +1,26 @@
 import { ChangeEvent } from 'react';
-import { BaseAddress } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/common';
+
+export type DhlAddress = {
+  name1: string;
+  name2?: string;
+  name3?: string;
+  addressStreet: string;
+  addressHouse?: string;
+  postalCode?: string;
+  city: string;
+  country: string;
+  contactName?: string;
+  email?: string;
+};
 
 export type SettingsFormDataType = {
-  return: BaseAddress;
-  dispatch: BaseAddress;
+  return: DhlAddress;
+  dispatch: DhlAddress;
   returnIsDispatch: boolean;
 };
 
 export type DHLSettingsType = {
-  values: BaseAddress;
+  values: DhlAddress;
   type: 'dispatch' | 'return';
   handleChange: {
     (e: ChangeEvent<any>): void;
