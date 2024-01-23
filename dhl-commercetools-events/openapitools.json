@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "2.0.7",
+    "generators": {
+      "parcel-de-shipping": {
+        "generatorName": "typescript-axios",
+        "output": "#{cwd}/src/parcel-de-shipping/",
+        "inputSpec": "../docs/parcel-de-shipping-v2_0.yaml",
+        "additionalProperties": {
+          "supportsES6": "true"
+        }
+      }
+    }
+  }
+}

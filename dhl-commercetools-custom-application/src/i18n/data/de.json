@@ -4,15 +4,14 @@
   "Welcome.cardSettings": "Einstellungen",
   "Welcome.cardSettingsContent": "Hier können Sie die Absender- und Retourenadresse verwalten.",
   "Settings.returnIsDispatch": "Retourenadresse ist gleich der Absenderadresse",
-  "Settings.streetName": "Straßenname",
-  "Settings.streetNumber": "Hausnummer",
-  "Settings.additionalStreetInfo": "zusätzliche Information",
-  "Settings.postalCode": "Postleitzahl",
+  "Settings.name1": "Name1. Line 1 of name information",
+  "Settings.name2": "An optional, additional line of name information",
+  "Settings.name3": "An optional, additional line of name information",
+  "Settings.postalCode": "Mandatory for all countries but Ireland that use a postal code system.",
   "Settings.city": "Stadt",
-  "Settings.state": "Staat",
+  "Settings.addressStreet": "Line 1 of the street address. This is just the street name. Can also include house number.",
   "Settings.country": "Land",
-  "Settings.company": "Firma",
-  "Settings.department": "Abteilung",
-  "Settings.pOBox": "Postfach",
-  "Settings.phone": "Telefonnummer"
+  "Settings.addressHouse": "Line 1 of the street address. This is just the house number. Can be added to street name instead.",
+  "Settings.email": "Optional contact email address of the shipper",
+  "Settings.contactName": "Optional contact name. (this is not the primary name printed on label)"
 }
