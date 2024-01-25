@@ -13,7 +13,10 @@ import {
 } from '../parcel-de-shipping';
 import { AxiosError } from 'axios';
 import { mapCommercetoolsOrderToDHLShipment } from '../utils/map.utils';
-import {SettingsFormDataType, ShippingMethodDHLCustomFields} from '../types/index.types';
+import {
+  SettingsFormDataType,
+  ShippingMethodDHLCustomFields,
+} from '../types/index.types';
 
 const DHL_PARCEL_API_KEY = 'eg391xkOwa007rDuCVJqAo2wzG4pmWI5';
 
@@ -65,6 +68,7 @@ async function storeLabelForOrder(
               },
               fields: {
                 deliveryLabel: label.label?.url,
+                customsLabel: label.customsDoc?.url,
               },
             },
           } as OrderAddParcelToDeliveryAction,
@@ -81,11 +85,16 @@ export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
   const order = await getOrderByDeliveryId(delivery.id);
   logger.info(`Got Order with id ${order.id}`);
   var shippingMethod = order.shippingInfo?.shippingMethod?.obj;
-  var dhlCustomFields = shippingMethod?.custom?.fields as ShippingMethodDHLCustomFields;
-  if (!dhlCustomFields.product || !dhlCustomFields.ekp || !dhlCustomFields.participation) {
+  var dhlCustomFields = shippingMethod?.custom
+    ?.fields as ShippingMethodDHLCustomFields;
+  if (
+    !dhlCustomFields.product ||
+    !dhlCustomFields.ekp ||
+    !dhlCustomFields.participation
+  ) {
     return;
   }
-  const label = await createLabel(order);
+  const label = await createLabel(order, delivery);
   await storeLabelForOrder(order, delivery, label);
   logger.info(JSON.stringify(label));
 };
@@ -104,7 +113,7 @@ async function getSettings(): Promise<SettingsFormDataType> {
   ).body.value;
 }
 
-const createLabel = async (order: Order) => {
+const createLabel = async (order: Order, delivery: Delivery) => {
   const settings = await getSettings();
   const api = ShipmentsAndLabelsApiFactory(
     {
@@ -121,7 +130,9 @@ const createLabel = async (order: Order) => {
       await api.createOrders(
         {
           profile: 'STANDARD_GRUPPENPROFIL',
-          shipments: [mapCommercetoolsOrderToDHLShipment(order, settings)],
+          shipments: [
+            mapCommercetoolsOrderToDHLShipment(order, delivery, settings),
+          ],
         },
         undefined,
         undefined,
