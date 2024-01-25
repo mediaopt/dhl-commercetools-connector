@@ -13,7 +13,7 @@ import {
 } from '../parcel-de-shipping';
 import { AxiosError } from 'axios';
 import { mapCommercetoolsOrderToDHLShipment } from '../utils/map.utils';
-import { SettingsFormDataType } from '../types/index.types';
+import {SettingsFormDataType, ShippingMethodDHLCustomFields} from '../types/index.types';
 
 const DHL_PARCEL_API_KEY = 'eg391xkOwa007rDuCVJqAo2wzG4pmWI5';
 
@@ -80,6 +80,11 @@ export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
   logger.info(`Got Delivery with id ${delivery.id}`);
   const order = await getOrderByDeliveryId(delivery.id);
   logger.info(`Got Order with id ${order.id}`);
+  var shippingMethod = order.shippingInfo?.shippingMethod?.obj;
+  var dhlCustomFields = shippingMethod?.custom?.fields as ShippingMethodDHLCustomFields;
+  if (!dhlCustomFields.product || !dhlCustomFields.ekp || !dhlCustomFields.participation) {
+    return;
+  }
   const label = await createLabel(order);
   await storeLabelForOrder(order, delivery, label);
   logger.info(JSON.stringify(label));
