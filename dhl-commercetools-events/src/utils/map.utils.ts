@@ -100,6 +100,7 @@ const productProcedureMapping = {
 
 const productReturnProcedureMapping = {
   V01PAK: '07',
+  V62WP: '07',
 };
 
 const countryISOMapping = {
