@@ -83,7 +83,6 @@ const Welcome = () => {
         </div>
 
         <Spacings.Stack scale="l" alignItems="stretch">
-          <Text.Subheadline as="h4" intlMessage={messages.subtitle} />
           <Grid display="grid" gridGap="16px" gridAutoColumns="1fr">
             <InfoCard
               title={intl.formatMessage(messages.cardSettingsTitle)}

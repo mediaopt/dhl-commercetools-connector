@@ -9,10 +9,6 @@ export default defineMessages({
     id: 'Settings.addressSettingsTitle',
     defaultMessage: 'Dispatch and return address',
   },
-  subtitle: {
-    id: 'Welcome.subtitle',
-    defaultMessage: ' ',
-  },
   cardSettingsTitle: {
     id: 'Welcome.cardSettings',
     defaultMessage: 'Settings',

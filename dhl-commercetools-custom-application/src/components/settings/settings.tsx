@@ -80,7 +80,10 @@ const Settings = () => {
         <form onSubmit={handleSubmit}>
           <Spacings.Stack alignItems="stretch" scale="xl">
             <Spacings.Stack scale="xl" alignItems="stretch">
-              <Text.Headline intlMessage={messages.addressSettingsTitle} />
+              <Text.Headline
+                as="h2"
+                intlMessage={messages.addressSettingsTitle}
+              />
               <AddressMask
                 values={values.dispatch}
                 handleChange={handleChange}

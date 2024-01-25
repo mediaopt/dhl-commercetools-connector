@@ -1,6 +1,5 @@
 {
   "Welcome.title": "DHL Products & Services Commercetools",
-  "Welcome.subtitle": "",
   "Welcome.cardSettings": "Settings",
   "Welcome.cardSettingsContent": "Here you can set dispatch address and return address.",
   "Settings.returnIsDispatch": "Return address is same as dispatch address",
