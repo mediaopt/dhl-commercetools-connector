@@ -5,7 +5,6 @@ import {
   TypeDraft,
 } from '@commercetools/platform-sdk';
 
-
 const DELIVERY_ADDED_SUBSCRIPTION_KEY =
   'dhl-connector-deliveryAddedSubscription';
 
@@ -90,6 +89,17 @@ export const createParcelCustomType = async (
         },
         required: false,
       } as FieldDefinition,
+      {
+        name: `customsLabel`,
+        label: {
+          en: `DHL Customs Label (for International Shipments)`,
+          de: 'DHL Zollinhaltserklärung (für internationale Sendungen)',
+        },
+        type: {
+          name: 'String',
+        },
+        required: false,
+      } as FieldDefinition,
     ],
   };
   await addOrUpdateCustomType(apiRoot, customType);
@@ -129,22 +139,22 @@ export const createShippingMethodCustomType = async (
               key: 'V01PAK',
               label: 'DHL Paket',
             },
-            // {
-            //   key: 'V53WPAK',
-            //   label: 'DHL Paket International',
-            // },
-            // {
-            //   key: 'V54EPAK',
-            //   label: 'DHL Europaket',
-            // },
-            // {
-            //   key: 'V62WP',
-            //   label: 'Warenpost',
-            // },
-            // {
-            //   key: 'V66WPI',
-            //   label: 'Warenpost International',
-            // },
+            {
+              key: 'V53WPAK',
+              label: 'DHL Paket International',
+            },
+            {
+              key: 'V54EPAK',
+              label: 'DHL Europaket',
+            },
+            {
+              key: 'V62WP',
+              label: 'Warenpost',
+            },
+            {
+              key: 'V66WPI',
+              label: 'Warenpost International',
+            },
           ],
         },
         required: true,
