@@ -52,7 +52,7 @@ function mapBillingNumber(fields: ShippingMethodDHLCustomFields) {
 }
 
 function mapReturnBillingNumber(fields: ShippingMethodDHLCustomFields) {
-  return `${fields.ekp}${productReturnProcedureMapping[fields.product]}${
+  return `${fields.ekp}${productReturnProcedureMapping[fields.product as keyof typeof productReturnProcedureMapping]}${
     fields.participation
   }`;
 }
@@ -74,7 +74,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
     shipper: mapShipper(settings),
     consignee: mapConsignee(order.shippingAddress),
     services: {
-      dhlRetoure: productReturnProcedureMapping[dhlCustomFields.product] ? {
+      dhlRetoure: productReturnProcedureMapping.hasOwnProperty(dhlCustomFields.product) ? {
         billingNumber: mapReturnBillingNumber(
           dhlCustomFields
         ),
