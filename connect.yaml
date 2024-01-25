@@ -28,6 +28,10 @@ deployAs:
       standardConfiguration:
         - key: CTP_REGION
           description: commercetools Composable Commerce API region
+        - key: DHL_GKP_USERNAME
+          description: User from Post & DHL Business Customer Portal
+        - key: DHL_PARCEL_ENVIRONMENT
+          description: Environment for DHL (SANDBOX or PRODUCTION)
       securedConfiguration:
         - key: CTP_PROJECT_KEY
           description: commercetools Composable Commerce project key
@@ -37,6 +41,8 @@ deployAs:
           description: commercetools Composable Commerce client secret
         - key: CTP_SCOPE
           description: commercetools Composable Commerce client scope
+        - key: DHL_GKP_PASSWORD
+          description: Password from Post & DHL Business Customer Portal
   - name: dhl-commercetools-custom-application
     applicationType: mc-app
     endpoint: /
