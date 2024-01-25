@@ -21,6 +21,7 @@ import {
 } from '../../constants';
 import { DEFAULT_SETTINGS } from './defaultSettings';
 import AddressMask from './AddressMask';
+import messages from '../welcome/messages';
 
 const Settings = () => {
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -79,7 +80,7 @@ const Settings = () => {
         <form onSubmit={handleSubmit}>
           <Spacings.Stack alignItems="stretch" scale="xl">
             <Spacings.Stack scale="xl" alignItems="stretch">
-              <Text.Body>PayPal Button</Text.Body>
+              <Text.Headline intlMessage={messages.addressSettingsTitle} />
               <AddressMask
                 values={values.dispatch}
                 handleChange={handleChange}
