@@ -3,7 +3,11 @@ dotenv.config();
 
 import { createApiRoot } from '../client/create.client';
 import { assertError, assertString } from '../utils/assert.utils';
-import { createDeliveryAddedSubscription } from './actions';
+import {
+  createDeliveryAddedSubscription,
+  createParcelCustomType,
+  createShippingMethodCustomType,
+} from './actions';
 
 const CONNECT_GCP_TOPIC_NAME_KEY = 'CONNECT_GCP_TOPIC_NAME';
 const CONNECT_GCP_PROJECT_ID_KEY = 'CONNECT_GCP_PROJECT_ID';
@@ -16,6 +20,8 @@ async function postDeploy(properties: Map<string, unknown>): Promise<void> {
   assertString(projectId, CONNECT_GCP_PROJECT_ID_KEY);
 
   const apiRoot = createApiRoot();
+  await createParcelCustomType(apiRoot);
+  await createShippingMethodCustomType(apiRoot);
   await createDeliveryAddedSubscription(apiRoot, topicName, projectId);
 }
 
