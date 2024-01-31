@@ -17,4 +17,5 @@ export const DEFAULT_SETTINGS: SettingsFormDataType = {
   dispatch: emptyAddress,
   return: emptyAddress,
   returnIsDispatch: true,
+  onlyAllowValidRoutingCodes: false,
 };
