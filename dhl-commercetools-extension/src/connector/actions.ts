@@ -1,4 +1,9 @@
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
+import {
+  CUSTOM_OBJECT_DEFAULT_VALUES,
+  GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+  GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+} from '../constants';
 
 const CART_UPDATE_EXTENSION_KEY = 'myconnector-cartUpdateExtension';
 const CART_DISCOUNT_TYPE_KEY = 'myconnector-cartDiscountType';
@@ -130,6 +135,33 @@ export async function createCustomCartDiscountType(
             required: false,
           },
         ],
+      },
+    })
+    .execute();
+}
+
+export async function createAndSetCustomObject(
+  apiRoot: ByProjectKeyRequestBuilder
+): Promise<void> {
+  const existingSettingsObject = await apiRoot
+    .customObjects()
+    .withContainerAndKey({
+      container: GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+      key: GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+    })
+    .get()
+    .execute();
+  if (existingSettingsObject.body.value) {
+    return;
+  }
+
+  await apiRoot
+    .customObjects()
+    .post({
+      body: {
+        container: GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+        key: GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+        value: CUSTOM_OBJECT_DEFAULT_VALUES,
       },
     })
     .execute();
