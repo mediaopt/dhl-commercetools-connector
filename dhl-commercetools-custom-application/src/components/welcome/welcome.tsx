@@ -95,6 +95,11 @@ const Welcome = () => {
               content={intl.formatMessage(messages.cardLabelSettingsContent)}
               linkTo={`${match.url}/settings/label`}
             />
+            <InfoCard
+              title="Logs and errors"
+              content="Check here for notifications and errors"
+              linkTo={`${match.url}/settings/errors`}
+            />
           </Grid>
         </Spacings.Stack>
       </Spacings.Stack>

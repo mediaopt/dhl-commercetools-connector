@@ -13,11 +13,19 @@ export type DhlAddress = {
   email?: string;
 };
 
+export type DHLError = {
+  timestamp: Date;
+  level: 'info' | 'warning' | 'error';
+  message: string;
+  id: string;
+};
+
 export type SettingsFormDataType = {
   return: DhlAddress;
   dispatch: DhlAddress;
   returnIsDispatch: boolean;
   onlyAllowValidRoutingCodes: boolean;
+  errors?: Array<DHLError>;
 };
 
 type HandleChangeType = {
