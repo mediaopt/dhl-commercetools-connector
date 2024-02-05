@@ -136,7 +136,7 @@ const createLabel = async (order: Order, delivery: Delivery) => {
         },
         undefined,
         undefined,
-        undefined,
+        settings?.onlyAllowValidRoutingCodes ?? false,
         'URL'
       )
     ).data;

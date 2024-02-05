@@ -33,6 +33,7 @@ export type SettingsFormDataType = {
   return: DhlAddress;
   dispatch: DhlAddress;
   returnIsDispatch: boolean;
+  onlyAllowValidRoutingCodes: boolean;
 };
 
 export type ShippingMethodDHLCustomFields = {
