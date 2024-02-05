@@ -1,8 +1,9 @@
 {
   "Welcome.title": "DHL Products & Services Commercetools",
-  "Welcome.subtitle": "",
   "Welcome.cardSettings": "Settings",
   "Welcome.cardSettingsContent": "Here you can set dispatch address and return address.",
+  "Welcome.newCustomerRegistration": "Here you can register to use DHLs services: {link}",
+  "Welcome.newCustomerRegistrationLink": "DHLs Business Customer Portal",
   "Settings.returnIsDispatch": "Return address is same as dispatch address",
   "Settings.name1": "Name1. Line 1 of name information",
   "Settings.name2": "An optional, additional line of name information",
@@ -13,5 +14,6 @@
   "Settings.country": "Land",
   "Settings.addressHouse": "Line 1 of the street address. This is just the house number. Can be added to street name instead.",
   "Settings.email": "Optional contact email address of the shipper",
-  "Settings.contactName": "Optional contact name. (this is not the primary name printed on label)"
+  "Settings.contactName": "Optional contact name. (this is not the primary name printed on label)",
+  "Settings.addressSettingsTitle": "Dispatch and return address"
 }
