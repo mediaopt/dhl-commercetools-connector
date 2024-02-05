@@ -2,6 +2,8 @@
   "Welcome.title": "DHL Produkte & Services Commercetools",
   "Welcome.cardSettings": "Einstellungen",
   "Welcome.cardSettingsContent": "Hier können Sie die Absender- und Retourenadresse verwalten.",
+  "Welcome.newCustomerRegistration": "Hier können Sie sich für die Services von DHL registrieren: {link}",
+  "Welcome.newCustomerRegistrationLink": "DHLs Geschäftskundenportal",
   "Settings.returnIsDispatch": "Retourenadresse ist gleich der Absenderadresse",
   "Settings.name1": "Name1. Line 1 of name information",
   "Settings.name2": "An optional, additional line of name information",

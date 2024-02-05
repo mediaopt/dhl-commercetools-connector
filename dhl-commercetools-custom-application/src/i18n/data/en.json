@@ -2,6 +2,8 @@
   "Welcome.title": "DHL Products & Services Commercetools",
   "Welcome.cardSettings": "Settings",
   "Welcome.cardSettingsContent": "Here you can set dispatch address and return address.",
+  "Welcome.newCustomerRegistration": "Here you can register to use DHLs services: {link}",
+  "Welcome.newCustomerRegistrationLink": "DHLs Business Customer Portal",
   "Settings.returnIsDispatch": "Return address is same as dispatch address",
   "Settings.name1": "Name1. Line 1 of name information",
   "Settings.name2": "An optional, additional line of name information",
