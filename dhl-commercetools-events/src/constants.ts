@@ -1,4 +1,4 @@
-import { SettingsFormDataType } from './types/types';
+import { SettingsFormDataType } from './types/index.types';
 import { Shipper } from './parcel-de-shipping';
 
 export const GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME =
