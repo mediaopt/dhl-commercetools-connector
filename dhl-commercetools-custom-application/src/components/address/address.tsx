@@ -33,6 +33,6 @@ const Address = ({ values, handleChange }: SubSettingsPagePropType) => {
     </SubPageWrapper>
   );
 };
-Address.displayName = 'Settings Overview';
+Address.displayName = 'Address Settings';
 
 export default Address;
