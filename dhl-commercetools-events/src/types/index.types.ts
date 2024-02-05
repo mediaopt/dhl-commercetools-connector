@@ -23,6 +23,11 @@ export type SettingsFormDataType = {
   dispatch: Shipper;
   returnIsDispatch: boolean;
   onlyAllowValidRoutingCodes: boolean;
+  weight: {
+    attribute: string;
+    unit: 'g' | 'kg';
+    fallbackWeight: number;
+  };
 };
 
 export type ShippingMethodDHLCustomFields = {

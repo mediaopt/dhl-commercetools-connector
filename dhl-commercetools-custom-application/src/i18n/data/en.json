@@ -19,5 +19,9 @@
   "Settings.contactName": "Optional contact name. (this is not the primary name printed on label)",
   "Settings.labelSettings": "Label settings",
   "Settings.onlyAllowValidRoutingCodes": "Only allow addresses with valid routing codes",
-  "Settings.addressSettingsTitle": "Dispatch and return address"
+  "Settings.addressSettingsTitle": "Dispatch and return address",
+  "Settings.weight": "Weight calculations",
+  "Settings.weightAttribute": "Attribute in which the article weight is saved in",
+  "Settings.weightUnit": "Unit of the weight",
+  "Settings.weightFallback": "If article has no weight use this instead"
 }
