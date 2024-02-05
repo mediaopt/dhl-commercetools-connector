@@ -4,6 +4,11 @@ import {
   TypeAddFieldDefinitionAction,
   TypeDraft,
 } from '@commercetools/platform-sdk';
+import {
+  CUSTOM_OBJECT_DEFAULT_VALUES,
+  GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+  GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+} from '../constants';
 
 const DELIVERY_ADDED_SUBSCRIPTION_KEY =
   'dhl-connector-deliveryAddedSubscription';
@@ -224,6 +229,33 @@ async function addOrUpdateCustomType(
     .types()
     .post({
       body: customType,
+    })
+    .execute();
+}
+
+export async function createAndSetCustomObject(
+  apiRoot: ByProjectKeyRequestBuilder
+): Promise<void> {
+  const existingSettingsObject = await apiRoot
+    .customObjects()
+    .withContainerAndKey({
+      container: GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+      key: GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+    })
+    .get()
+    .execute();
+  if (existingSettingsObject.body.value) {
+    return;
+  }
+
+  await apiRoot
+    .customObjects()
+    .post({
+      body: {
+        container: GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+        key: GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+        value: CUSTOM_OBJECT_DEFAULT_VALUES,
+      },
     })
     .execute();
 }

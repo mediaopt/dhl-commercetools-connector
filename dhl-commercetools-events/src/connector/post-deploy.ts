@@ -4,6 +4,7 @@ dotenv.config();
 import { createApiRoot } from '../client/create.client';
 import { assertError, assertString } from '../utils/assert.utils';
 import {
+  createAndSetCustomObject,
   createDeliveryAddedSubscription,
   createParcelCustomType,
   createShippingMethodCustomType,
@@ -23,6 +24,7 @@ async function postDeploy(properties: Map<string, unknown>): Promise<void> {
   await createParcelCustomType(apiRoot);
   await createShippingMethodCustomType(apiRoot);
   await createDeliveryAddedSubscription(apiRoot, topicName, projectId);
+  await createAndSetCustomObject(apiRoot);
 }
 
 async function run(): Promise<void> {
