@@ -5,9 +5,9 @@ export default defineMessages({
     id: 'Welcome.title',
     defaultMessage: 'DHL Products & Services Commercetools',
   },
-  subtitle: {
-    id: 'Welcome.subtitle',
-    defaultMessage: ' ',
+  addressSettingsTitle: {
+    id: 'Settings.addressSettingsTitle',
+    defaultMessage: 'Dispatch and return address',
   },
   cardSettingsTitle: {
     id: 'Welcome.cardSettings',
