@@ -19,7 +19,7 @@ export type SettingsFormDataType = {
   returnIsDispatch: boolean;
   onlyAllowValidRoutingCodes: boolean;
   weight: {
-    attribute: string;
+    attribute?: string;
     unit: 'g' | 'kg';
     fallbackWeight: number;
   };

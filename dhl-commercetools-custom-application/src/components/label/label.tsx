@@ -36,7 +36,7 @@ const Label = ({ handleChange, values }: SubSettingsPagePropType) => {
           <TextField
             onChange={handleChange}
             title={<FormattedMessage id="Settings.weightAttribute" />}
-            value={values.weight.attribute}
+            value={values.weight.attribute || ''}
             name="weight.attribute"
           />
           <SelectField
