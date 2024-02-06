@@ -12,18 +12,17 @@ import {
   Address,
   Delivery,
   DeliveryItem,
+  LineItem,
   Order,
   TypedMoney,
 } from '@commercetools/platform-sdk';
 import CustomError from '../errors/custom.error';
-import { logger } from './logger.utils';
 import {
   SettingsFormDataType,
   ShippingMethodDHLCustomFields,
 } from '../types/index.types';
 
 function mapConsignee(shippingAddress?: Address): Consignee {
-  logger.info(JSON.stringify(shippingAddress));
   if (!shippingAddress) {
     throw new CustomError(500, 'Order does not contain a shipping address');
   }
@@ -68,7 +67,31 @@ function mapReturnBillingNumber(fields: ShippingMethodDHLCustomFields) {
   }${fields.participation}`;
 }
 
-function mapItems(order: Order, items: DeliveryItem[]): Commodity[] {
+function mapCommercetoolsLineItemWeight(
+  item: LineItem,
+  settings: SettingsFormDataType
+) {
+  if (!settings?.weight?.attribute) {
+    return Math.round(
+      measurementToGramMapping[settings?.weight?.unit ?? 'kg'] *
+        (settings?.weight?.fallbackWeight ?? 1)
+    );
+  }
+  return Math.round(
+    measurementToGramMapping[settings?.weight?.unit ?? 'kg'] *
+      (item.variant.attributes?.find(
+        (attribute) => attribute.name === settings.weight.attribute
+      )?.value ??
+        settings?.weight?.fallbackWeight ??
+        1)
+  );
+}
+
+function mapItems(
+  order: Order,
+  items: DeliveryItem[],
+  settings: SettingsFormDataType
+): Commodity[] {
   return items
     .map((deliveryItem) => {
       const item = order.lineItems.find(
@@ -82,7 +105,7 @@ function mapItems(order: Order, items: DeliveryItem[]): Commodity[] {
         itemValue: mapCommercetoolsPrice(item.price.value),
         itemWeight: {
           uom: 'g',
-          value: 5, // @TODO
+          value: mapCommercetoolsLineItemWeight(item, settings),
         },
         packagedQuantity: deliveryItem.quantity,
       };
@@ -109,6 +132,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
   if (!dhlCustomFields) {
     throw new CustomError(500, 'Shipping method is not a dhl shipping method');
   }
+  const items = mapItems(order, delivery.items, settings);
   return {
     product: dhlCustomFields.product,
     billingNumber: mapBillingNumber(dhlCustomFields),
@@ -126,7 +150,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
     },
     customs: {
       exportType: 'COMMERCIAL_GOODS',
-      items: mapItems(order, delivery.items),
+      items,
       postalCharges: order.shippingInfo?.taxedPrice?.totalGross
         ? mapCommercetoolsPrice(order.shippingInfo.taxedPrice.totalGross)
         : {
@@ -137,10 +161,17 @@ export const mapCommercetoolsOrderToDHLShipment = (
     details: {
       weight: {
         uom: 'g',
-        value: 500, // @TODO
+        value: items
+          .map((item) => item.itemWeight.value * item.packagedQuantity)
+          .reduce((x, y) => x + y),
       },
     },
   };
+};
+
+const measurementToGramMapping = {
+  g: 1,
+  kg: 1000,
 };
 
 const productProcedureMapping = {

@@ -1,4 +1,4 @@
-import { Shipper } from '../parcel-de-shipping';
+import { Shipper, WeightUomEnum } from '../parcel-de-shipping';
 
 export type Message = {
   code: string;
@@ -25,7 +25,7 @@ export type SettingsFormDataType = {
   onlyAllowValidRoutingCodes: boolean;
   weight: {
     attribute?: string;
-    unit: 'g' | 'kg';
+    unit: WeightUomEnum;
     fallbackWeight: number;
   };
 };

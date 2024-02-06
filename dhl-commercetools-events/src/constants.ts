@@ -26,7 +26,7 @@ export const CUSTOM_OBJECT_DEFAULT_VALUES: SettingsFormDataType = {
   onlyAllowValidRoutingCodes: false,
   weight: {
     attribute: '',
-    unit: 'g',
-    fallbackWeight: 0,
+    unit: 'kg',
+    fallbackWeight: 1,
   },
 };
