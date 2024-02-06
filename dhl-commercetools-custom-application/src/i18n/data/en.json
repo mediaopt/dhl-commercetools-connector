@@ -19,5 +19,6 @@
   "Settings.contactName": "Optional contact name. (this is not the primary name printed on label)",
   "Settings.addressSettingsTitle": "Dispatch and return address",
   "Settings.labelSettings": "Label settings",
-  "Settings.onlyAllowValidRoutingCodes": "Only allow addresses with valid routing codes"
+  "Settings.onlyAllowValidRoutingCodes": "Only allow addresses with valid routing codes",
+  "Settings.errorsEmpty": "No logs available"
 }

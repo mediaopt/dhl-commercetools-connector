@@ -14,7 +14,7 @@ export type DhlAddress = {
 };
 
 export type DHLError = {
-  timestamp: Date;
+  timestamp: number;
   level: 'info' | 'warning' | 'error';
   message: string;
   id: string;

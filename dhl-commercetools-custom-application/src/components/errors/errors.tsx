@@ -1,8 +1,10 @@
 import { ReactNode } from 'react';
 import DataTable, { TColumn } from '@commercetools-uikit/data-table';
 import { WarningIcon, InfoIcon, SupportIcon } from '@commercetools-uikit/icons';
+import Text from '@commercetools-uikit/text';
 import { DEFAULT_SETTINGS } from '../settings/defaultSettings';
 import { DHLError } from '../../types/types';
+import { FormattedMessage } from 'react-intl';
 
 type row = DHLError;
 
@@ -23,7 +25,7 @@ const Errors = () => {
   const renderer = (row: row, column: TColumn<row>): ReactNode => {
     switch (column.key) {
       case 'timestamp':
-        return <span>{row.timestamp.toLocaleString()}</span>;
+        return <span>{new Date(row.timestamp).toISOString()}</span>;
       case 'level':
         if (row[column.key] === 'warning') {
           return <InfoIcon color="warning" />;
@@ -37,7 +39,14 @@ const Errors = () => {
     }
   };
 
-  if (!DEFAULT_SETTINGS.errors) return <></>;
+  if (!DEFAULT_SETTINGS.errors)
+    return (
+      <>
+        <Text.Body>
+          <FormattedMessage id="Settings.errorsEmpty" />
+        </Text.Body>
+      </>
+    );
 
   return (
     <>

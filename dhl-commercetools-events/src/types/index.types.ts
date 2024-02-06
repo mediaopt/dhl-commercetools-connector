@@ -18,10 +18,18 @@ export type Wrapper = (
   validator: ValidatorFunction
 ) => (value: object) => boolean;
 
+export type DHLError = {
+  timestamp: number;
+  level: 'info' | 'warning' | 'error';
+  message: string;
+  id: string;
+};
+
 export type SettingsFormDataType = {
   return: Shipper;
   dispatch: Shipper;
   returnIsDispatch: boolean;
+  errors?: Array<DHLError>;
 };
 
 export type ShippingMethodDHLCustomFields = {

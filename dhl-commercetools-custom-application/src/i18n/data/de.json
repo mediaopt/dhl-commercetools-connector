@@ -19,5 +19,6 @@
   "Settings.contactName": "Optional contact name. (this is not the primary name printed on label)",
   "Settings.addressSettingsTitle": "Versand- und Retourenadresse",
   "Settings.labelSettings": "Label settings",
-  "Settings.onlyAllowValidRoutingCodes": "Nur leitcodierbare Adressen zulassen"
+  "Settings.onlyAllowValidRoutingCodes": "Nur leitcodierbare Adressen zulassen",
+  "Settings.errorsEmpty": "Keine Logs vorhanden"
 }
