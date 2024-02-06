@@ -8,7 +8,7 @@ import TextField from '@commercetools-uikit/text-field';
 import NumberField from '@commercetools-uikit/number-field';
 import SelectField from '@commercetools-uikit/select-field';
 
-const Label = ({ handleChange, values }: SubSettingsPagePropType) => {
+const Shipments = ({ handleChange, values }: SubSettingsPagePropType) => {
   return (
     <SubPageWrapper>
       <Spacings.Stack scale="xs" alignItems="stretch">
@@ -36,6 +36,7 @@ const Label = ({ handleChange, values }: SubSettingsPagePropType) => {
           <TextField
             onChange={handleChange}
             title={<FormattedMessage id="Settings.weightAttribute" />}
+            hint={<FormattedMessage id="Settings.weightAttributeHint" />}
             value={values.weight.attribute || ''}
             name="weight.attribute"
           />
@@ -61,4 +62,4 @@ const Label = ({ handleChange, values }: SubSettingsPagePropType) => {
   );
 };
 
-export default Label;
+export default Shipments;
