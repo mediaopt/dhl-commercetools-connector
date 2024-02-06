@@ -20,7 +20,7 @@ export const DEFAULT_SETTINGS: SettingsFormDataType = {
   onlyAllowValidRoutingCodes: false,
   weight: {
     attribute: '',
-    unit: 'g',
-    fallbackWeight: 0,
+    unit: 'kg',
+    fallbackWeight: 1,
   },
 };
