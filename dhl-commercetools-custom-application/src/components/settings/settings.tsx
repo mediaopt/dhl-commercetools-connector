@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { Formik } from 'formik';
-import Spacings from '@commercetools-uikit/spacings';
-import PrimaryButton from '@commercetools-uikit/primary-button';
-import Text from '@commercetools-uikit/text';
-import CheckboxInput from '@commercetools-uikit/checkbox-input';
 
 import {
   useFetchSettings,
@@ -20,8 +15,9 @@ import {
   GRAPHQL_CUSTOMOBJECT_KEY_NAME,
 } from '../../constants';
 import { DEFAULT_SETTINGS } from './defaultSettings';
-import AddressMask from './AddressMask';
-import messages from '../welcome/messages';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import Address from '../address';
+import Label from '../label';
 
 const Settings = () => {
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -33,6 +29,7 @@ const Settings = () => {
     GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME
   );
   const [setSettingsFunc] = useSetSettings();
+  const match = useRouteMatch();
 
   const saveSettings = (values: SettingsFormDataType) => {
     // @ts-ignore
@@ -78,41 +75,14 @@ const Settings = () => {
     >
       {({ values, handleChange, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <Spacings.Stack alignItems="stretch" scale="xl">
-            <Spacings.Stack scale="xl" alignItems="stretch">
-              <Text.Headline
-                as="h2"
-                intlMessage={messages.addressSettingsTitle}
-              />
-              <AddressMask
-                values={values.dispatch}
-                handleChange={handleChange}
-                type="dispatch"
-              />
-              <CheckboxInput
-                isChecked={values.returnIsDispatch}
-                onChange={handleChange}
-                value="returnIsDispatch"
-                name="returnIsDispatch"
-              >
-                <FormattedMessage id="Settings.returnIsDispatch" />
-              </CheckboxInput>
-              {!values.returnIsDispatch && (
-                <AddressMask
-                  values={values.return}
-                  type="return"
-                  handleChange={handleChange}
-                />
-              )}
-            </Spacings.Stack>
-            <Spacings.Inline
-              scale="s"
-              alignItems="flex-start"
-              justifyContent="flex-start"
-            >
-              <PrimaryButton label="save" type="submit" />
-            </Spacings.Inline>
-          </Spacings.Stack>
+          <Switch>
+            <Route path={`${match.path}/address`}>
+              <Address handleChange={handleChange} values={values} />
+            </Route>
+            <Route path={`${match.path}/label`}>
+              <Label handleChange={handleChange} values={values} />
+            </Route>
+          </Switch>
         </form>
       )}
     </Formik>

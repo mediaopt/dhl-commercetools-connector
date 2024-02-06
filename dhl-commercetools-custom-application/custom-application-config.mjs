@@ -28,8 +28,14 @@ const config = {
   },
   submenuLinks: [
     {
-      uriPath: 'settings',
-      defaultLabel: 'DHL Settings',
+      uriPath: 'settings/address',
+      defaultLabel: 'DHL Shipping Settings',
+      labelAllLocales: [],
+      permissions: [PERMISSIONS.Manage],
+    },
+    {
+      uriPath: 'settings/label',
+      defaultLabel: 'DHL Label Settings',
       labelAllLocales: [],
       permissions: [PERMISSIONS.Manage],
     },

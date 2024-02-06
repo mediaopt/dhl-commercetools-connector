@@ -103,7 +103,12 @@ const Welcome = () => {
             <InfoCard
               title={intl.formatMessage(messages.cardSettingsTitle)}
               content={intl.formatMessage(messages.cardSettingsContent)}
-              linkTo={`${match.url}/settings`}
+              linkTo={`${match.url}/settings/address`}
+            />
+            <InfoCard
+              title={intl.formatMessage(messages.cardLabelSettingsTitle)}
+              content={intl.formatMessage(messages.cardLabelSettingsContent)}
+              linkTo={`${match.url}/settings/label`}
             />
           </Grid>
         </Spacings.Stack>

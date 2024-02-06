@@ -22,6 +22,7 @@ export type SettingsFormDataType = {
   return: Shipper;
   dispatch: Shipper;
   returnIsDispatch: boolean;
+  onlyAllowValidRoutingCodes: boolean;
 };
 
 export type ShippingMethodDHLCustomFields = {
