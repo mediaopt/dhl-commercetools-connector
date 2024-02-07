@@ -95,6 +95,7 @@ const Welcome = () => {
                     isExternal={true}
                     to={'https://geschaeftskunden.dhl.de/'}
                   >
+                    <br />
                     <FormattedMessage id="Welcome.newCustomerRegistrationLink" />
                   </Link>
                 ),
@@ -102,17 +103,16 @@ const Welcome = () => {
             />
           </Text.Detail>
         </Grid.Item>
-      </Grid>
-          <Grid display="grid" gridGap="16px" gridAutoColumns="1fr">
+
         <InfoCard
           title={intl.formatMessage(messages.cardSettingsTitle)}
           content={intl.formatMessage(messages.cardSettingsContent)}
-              linkTo={`${match.url}/settings/address`}
-            />
-            <InfoCard
-              title={intl.formatMessage(messages.cardShippingSettingsTitle)}
-              content={intl.formatMessage(messages.cardShippingSettingsContent)}
-              linkTo={`${match.url}/settings/shipments`}
+          linkTo={`${match.url}/settings/address`}
+        />
+        <InfoCard
+          title={intl.formatMessage(messages.cardShippingSettingsTitle)}
+          content={intl.formatMessage(messages.cardShippingSettingsContent)}
+          linkTo={`${match.url}/settings/shipments`}
         />
       </Grid>
     </Constraints.Horizontal>
