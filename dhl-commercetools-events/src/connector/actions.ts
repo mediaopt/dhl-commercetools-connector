@@ -4,7 +4,11 @@ import {
   TypeAddFieldDefinitionAction,
   TypeDraft,
 } from '@commercetools/platform-sdk';
-
+import {
+  CUSTOM_OBJECT_DEFAULT_VALUES,
+  GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+  GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+} from '../constants';
 
 const DELIVERY_ADDED_SUBSCRIPTION_KEY =
   'dhl-connector-deliveryAddedSubscription';
@@ -90,6 +94,17 @@ export const createParcelCustomType = async (
         },
         required: false,
       } as FieldDefinition,
+      {
+        name: `customsLabel`,
+        label: {
+          en: `DHL Customs Label (for International Shipments)`,
+          de: 'DHL Zollinhaltserklärung (für internationale Sendungen)',
+        },
+        type: {
+          name: 'String',
+        },
+        required: false,
+      } as FieldDefinition,
     ],
   };
   await addOrUpdateCustomType(apiRoot, customType);
@@ -129,22 +144,22 @@ export const createShippingMethodCustomType = async (
               key: 'V01PAK',
               label: 'DHL Paket',
             },
-            // {
-            //   key: 'V53WPAK',
-            //   label: 'DHL Paket International',
-            // },
-            // {
-            //   key: 'V54EPAK',
-            //   label: 'DHL Europaket',
-            // },
-            // {
-            //   key: 'V62WP',
-            //   label: 'Warenpost',
-            // },
-            // {
-            //   key: 'V66WPI',
-            //   label: 'Warenpost International',
-            // },
+            {
+              key: 'V53WPAK',
+              label: 'DHL Paket International',
+            },
+            {
+              key: 'V54EPAK',
+              label: 'DHL Europaket',
+            },
+            {
+              key: 'V62WP',
+              label: 'Warenpost',
+            },
+            {
+              key: 'V66WPI',
+              label: 'Warenpost International',
+            },
           ],
         },
         required: true,
@@ -214,6 +229,33 @@ async function addOrUpdateCustomType(
     .types()
     .post({
       body: customType,
+    })
+    .execute();
+}
+
+export async function createAndSetCustomObject(
+  apiRoot: ByProjectKeyRequestBuilder
+): Promise<void> {
+  const existingSettingsObject = await apiRoot
+    .customObjects()
+    .withContainerAndKey({
+      container: GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+      key: GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+    })
+    .get()
+    .execute();
+  if (existingSettingsObject.body.value) {
+    return;
+  }
+
+  await apiRoot
+    .customObjects()
+    .post({
+      body: {
+        container: GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
+        key: GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+        value: CUSTOM_OBJECT_DEFAULT_VALUES,
+      },
     })
     .execute();
 }

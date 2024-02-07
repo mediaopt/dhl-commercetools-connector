@@ -11,10 +11,19 @@ export default defineMessages({
   },
   cardSettingsTitle: {
     id: 'Welcome.cardSettings',
-    defaultMessage: 'Settings',
+    defaultMessage: 'Addresses',
   },
   cardSettingsContent: {
     id: 'Welcome.cardSettingsContent',
     defaultMessage: 'Here you can set dispatch address and return address.',
+  },
+  cardShippingSettingsTitle: {
+    id: 'Welcome.cardShippingSettingsTitle',
+    defaultMessage: 'Shipment settings',
+  },
+  cardShippingSettingsContent: {
+    id: 'Welcome.cardShippingSettingsContent',
+    defaultMessage:
+      'Here you have the settings for shipments like weight calculation or label generation.',
   },
 });

@@ -17,17 +17,30 @@ export type SettingsFormDataType = {
   return: DhlAddress;
   dispatch: DhlAddress;
   returnIsDispatch: boolean;
+  onlyAllowValidRoutingCodes: boolean;
+  weight: {
+    attribute?: string;
+    unit: 'g' | 'kg';
+    fallbackWeight: number;
+  };
+};
+
+type HandleChangeType = {
+  (e: ChangeEvent<any>): void;
+  <T = string | ChangeEvent<any>>(field: T): T extends ChangeEvent<any>
+    ? void
+    : (e: string | ChangeEvent<any>) => void;
 };
 
 export type DHLSettingsType = {
   values: DhlAddress;
   type: 'dispatch' | 'return';
-  handleChange: {
-    (e: ChangeEvent<any>): void;
-    <T = string | ChangeEvent<any>>(field: T): T extends ChangeEvent<any>
-      ? void
-      : (e: string | ChangeEvent<any>) => void;
-  };
+  handleChange: HandleChangeType;
+};
+
+export type SubSettingsPagePropType = {
+  values: SettingsFormDataType;
+  handleChange: HandleChangeType;
 };
 
 export type FetchedCustomObjectType = {

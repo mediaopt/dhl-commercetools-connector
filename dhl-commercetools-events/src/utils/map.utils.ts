@@ -1,20 +1,28 @@
 import {
+  Commodity,
   Consignee,
   ContactAddress,
   Country,
   Shipment,
   ShipmentShipper,
+  Value,
+  ValueCurrencyEnum,
 } from '../parcel-de-shipping';
-import { Address, Order } from '@commercetools/platform-sdk';
+import {
+  Address,
+  Delivery,
+  DeliveryItem,
+  LineItem,
+  Order,
+  TypedMoney,
+} from '@commercetools/platform-sdk';
 import CustomError from '../errors/custom.error';
-import { logger } from './logger.utils';
 import {
   SettingsFormDataType,
   ShippingMethodDHLCustomFields,
 } from '../types/index.types';
 
 function mapConsignee(shippingAddress?: Address): Consignee {
-  logger.info(JSON.stringify(shippingAddress));
   if (!shippingAddress) {
     throw new CustomError(500, 'Order does not contain a shipping address');
   }
@@ -52,42 +60,118 @@ function mapBillingNumber(fields: ShippingMethodDHLCustomFields) {
 }
 
 function mapReturnBillingNumber(fields: ShippingMethodDHLCustomFields) {
-  return `${fields.ekp}${productReturnProcedureMapping[fields.product as keyof typeof productReturnProcedureMapping]}${
-    fields.participation
-  }`;
+  return `${fields.ekp}${
+    productReturnProcedureMapping[
+      fields.product as keyof typeof productReturnProcedureMapping
+    ]
+  }${fields.participation}`;
+}
+
+function mapCommercetoolsLineItemWeight(
+  item: LineItem,
+  settings: SettingsFormDataType
+) {
+  if (!settings?.weight?.attribute) {
+    return Math.round(
+      measurementToGramMapping[settings?.weight?.unit ?? 'kg'] *
+        (settings?.weight?.fallbackWeight ?? 1)
+    );
+  }
+  return Math.round(
+    measurementToGramMapping[settings?.weight?.unit ?? 'kg'] *
+      (item.variant.attributes?.find(
+        (attribute) => attribute.name === settings.weight.attribute
+      )?.value ??
+        settings?.weight?.fallbackWeight ??
+        1)
+  );
+}
+
+function mapItems(
+  order: Order,
+  items: DeliveryItem[],
+  settings: SettingsFormDataType
+): Commodity[] {
+  return items
+    .map((deliveryItem) => {
+      const item = order.lineItems.find(
+        (lineItem) => lineItem.id === deliveryItem.id
+      );
+      if (!item) {
+        return undefined;
+      }
+      const commodity: Commodity = {
+        itemDescription: item.name[order.locale ?? Object.keys(item.name)[0]],
+        itemValue: mapCommercetoolsPrice(item.price.value),
+        itemWeight: {
+          uom: 'g',
+          value: mapCommercetoolsLineItemWeight(item, settings),
+        },
+        packagedQuantity: deliveryItem.quantity,
+      };
+      return commodity as Commodity;
+    })
+    .filter((item) => !!item) as Commodity[];
+}
+
+function mapCommercetoolsPrice(price: TypedMoney): Value {
+  return {
+    currency: price.currencyCode as ValueCurrencyEnum,
+    value: price.centAmount * Math.pow(10, -price.fractionDigits || 0),
+  };
 }
 
 export const mapCommercetoolsOrderToDHLShipment = (
   order: Order,
+  delivery: Delivery,
   settings: SettingsFormDataType
 ): Shipment => {
   var shippingMethod = order.shippingInfo?.shippingMethod?.obj;
-  var dhlCustomFields = shippingMethod?.custom?.fields as ShippingMethodDHLCustomFields;
+  var dhlCustomFields = shippingMethod?.custom
+    ?.fields as ShippingMethodDHLCustomFields;
   if (!dhlCustomFields) {
     throw new CustomError(500, 'Shipping method is not a dhl shipping method');
   }
+  const items = mapItems(order, delivery.items, settings);
   return {
     product: dhlCustomFields.product,
-    billingNumber: mapBillingNumber(
-      dhlCustomFields
-    ),
+    billingNumber: mapBillingNumber(dhlCustomFields),
     shipper: mapShipper(settings),
     consignee: mapConsignee(order.shippingAddress),
     services: {
-      dhlRetoure: productReturnProcedureMapping.hasOwnProperty(dhlCustomFields.product) ? {
-        billingNumber: mapReturnBillingNumber(
-          dhlCustomFields
-        ),
-        returnAddress: mapReturnAddress(settings),
-      } : undefined,
+      dhlRetoure: productReturnProcedureMapping.hasOwnProperty(
+        dhlCustomFields.product
+      )
+        ? {
+            billingNumber: mapReturnBillingNumber(dhlCustomFields),
+            returnAddress: mapReturnAddress(settings),
+          }
+        : undefined,
+    },
+    customs: {
+      exportType: 'COMMERCIAL_GOODS',
+      items,
+      postalCharges: order.shippingInfo?.taxedPrice?.totalGross
+        ? mapCommercetoolsPrice(order.shippingInfo.taxedPrice.totalGross)
+        : {
+            currency: order.totalPrice.currencyCode as ValueCurrencyEnum,
+            value: 0.0,
+          },
     },
     details: {
       weight: {
         uom: 'g',
-        value: 500, // @TODO
+        value: items
+          .map((item) => item.itemWeight.value * item.packagedQuantity)
+          .reduce((x, y) => x + y),
       },
     },
   };
+};
+
+const measurementToGramMapping = {
+  g: 1,
+  kg: 1000,
 };
 
 const productProcedureMapping = {

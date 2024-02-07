@@ -1,3 +1,5 @@
+import { Shipper, WeightUomEnum } from '../parcel-de-shipping';
+
 export type Message = {
   code: string;
   message: string;
@@ -16,23 +18,16 @@ export type Wrapper = (
   validator: ValidatorFunction
 ) => (value: object) => boolean;
 
-export type DhlAddress = {
-  name1: string;
-  name2?: string;
-  name3?: string;
-  addressStreet: string;
-  addressHouse?: string;
-  postalCode?: string;
-  city: string;
-  country: string;
-  contactName?: string;
-  email?: string;
-};
-
 export type SettingsFormDataType = {
-  return: DhlAddress;
-  dispatch: DhlAddress;
+  return: Shipper;
+  dispatch: Shipper;
   returnIsDispatch: boolean;
+  onlyAllowValidRoutingCodes: boolean;
+  weight: {
+    attribute?: string;
+    unit: WeightUomEnum;
+    fallbackWeight: number;
+  };
 };
 
 export type ShippingMethodDHLCustomFields = {

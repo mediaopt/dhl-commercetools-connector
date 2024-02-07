@@ -20,7 +20,7 @@ const AddressMask = ({ values, handleChange, type }: DHLSettingsType) => {
     <Spacings.Stack scale="s" alignItems="stretch">
       <Spacings.Inline
         scale="m"
-        alignItems="center"
+        alignItems="flex-end"
         justifyContent="space-between"
       >
         <TextField
@@ -45,7 +45,7 @@ const AddressMask = ({ values, handleChange, type }: DHLSettingsType) => {
       </Spacings.Inline>
       <Spacings.Inline
         scale="m"
-        alignItems="center"
+        alignItems="flex-end"
         justifyContent="space-between"
       >
         <TextField
@@ -64,7 +64,7 @@ const AddressMask = ({ values, handleChange, type }: DHLSettingsType) => {
       </Spacings.Inline>
       <Spacings.Inline
         scale="m"
-        alignItems="center"
+        alignItems="flex-end"
         justifyContent="space-between"
       >
         <TextField
@@ -91,7 +91,7 @@ const AddressMask = ({ values, handleChange, type }: DHLSettingsType) => {
       </Spacings.Inline>
       <Spacings.Inline
         scale="m"
-        alignItems="center"
+        alignItems="flex-end"
         justifyContent="space-between"
       >
         <TextField

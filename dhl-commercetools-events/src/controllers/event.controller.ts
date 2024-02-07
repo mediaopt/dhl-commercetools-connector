@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import CustomError from '../errors/custom.error';
 import { logger } from '../utils/logger.utils';
-import {
-  MessagePayload,
-} from '@commercetools/platform-sdk';
+import { MessagePayload } from '@commercetools/platform-sdk';
 import { handleDeliveryAddedMessage } from '../service/delivery.service';
 
 function parseRequest(request: Request) {

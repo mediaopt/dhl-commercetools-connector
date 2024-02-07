@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Constraints from '@commercetools-uikit/constraints';
 import Grid from '@commercetools-uikit/grid';
 import { AngleRightIcon } from '@commercetools-uikit/icons';
 import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
+import Link from '@commercetools-uikit/link';
 import messages from './messages';
 import styles from './welcome.module.css';
 import DHLLogo from './dhl-logo.png';
@@ -83,10 +84,35 @@ const Welcome = () => {
             <img alt="dhl logo" src={DHLLogo} width="100%" height="100%" />
           </div>
         </Grid.Item>
+
+        <Grid.Item>
+          <Text.Detail>
+            <FormattedMessage
+              id="Welcome.newCustomerRegistration"
+              values={{
+                link: (
+                  <Link
+                    isExternal={true}
+                    to={'https://geschaeftskunden.dhl.de/'}
+                  >
+                    <FormattedMessage id="Welcome.newCustomerRegistrationLink" />
+                  </Link>
+                ),
+              }}
+            />
+          </Text.Detail>
+        </Grid.Item>
+      </Grid>
+          <Grid display="grid" gridGap="16px" gridAutoColumns="1fr">
         <InfoCard
           title={intl.formatMessage(messages.cardSettingsTitle)}
           content={intl.formatMessage(messages.cardSettingsContent)}
-          linkTo={`${match.url}/settings`}
+              linkTo={`${match.url}/settings/address`}
+            />
+            <InfoCard
+              title={intl.formatMessage(messages.cardShippingSettingsTitle)}
+              content={intl.formatMessage(messages.cardShippingSettingsContent)}
+              linkTo={`${match.url}/settings/shipments`}
         />
       </Grid>
     </Constraints.Horizontal>
