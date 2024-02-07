@@ -74,16 +74,18 @@ const Welcome = () => {
   const intl = useIntl();
 
   return (
-    <Constraints.Horizontal max={16}>
-      <Spacings.Stack scale="xl" alignItems="stretch">
-        <Text.Headline as="h1" intlMessage={messages.title} />
-        <div>
+    <Constraints.Horizontal max="scale">
+      <Grid display="grid" gridGap="16px" gridAutoColumns="480px">
+        <Grid.Item>
+          <Text.Headline as="h1" intlMessage={messages.title} />
+        </Grid.Item>
+        <Grid.Item>
           <div className={styles.imageContainer}>
             <img alt="dhl logo" src={DHLLogo} width="100%" height="100%" />
           </div>
-        </div>
+        </Grid.Item>
 
-        <Spacings.Stack scale="l" alignItems="stretch">
+        <Grid.Item>
           <Text.Detail>
             <FormattedMessage
               id="Welcome.newCustomerRegistration"
@@ -93,26 +95,26 @@ const Welcome = () => {
                     isExternal={true}
                     to={'https://geschaeftskunden.dhl.de/'}
                   >
+                    <br />
                     <FormattedMessage id="Welcome.newCustomerRegistrationLink" />
                   </Link>
                 ),
               }}
             />
           </Text.Detail>
-          <Grid display="grid" gridGap="16px" gridAutoColumns="1fr">
-            <InfoCard
-              title={intl.formatMessage(messages.cardSettingsTitle)}
-              content={intl.formatMessage(messages.cardSettingsContent)}
-              linkTo={`${match.url}/settings/address`}
-            />
-            <InfoCard
-              title={intl.formatMessage(messages.cardShippingSettingsTitle)}
-              content={intl.formatMessage(messages.cardShippingSettingsContent)}
-              linkTo={`${match.url}/settings/shipments`}
-            />
-          </Grid>
-        </Spacings.Stack>
-      </Spacings.Stack>
+        </Grid.Item>
+
+        <InfoCard
+          title={intl.formatMessage(messages.cardSettingsTitle)}
+          content={intl.formatMessage(messages.cardSettingsContent)}
+          linkTo={`${match.url}/settings/address`}
+        />
+        <InfoCard
+          title={intl.formatMessage(messages.cardShippingSettingsTitle)}
+          content={intl.formatMessage(messages.cardShippingSettingsContent)}
+          linkTo={`${match.url}/settings/shipments`}
+        />
+      </Grid>
     </Constraints.Horizontal>
   );
 };
