@@ -18,6 +18,11 @@ export type SettingsFormDataType = {
   dispatch: DhlAddress;
   returnIsDispatch: boolean;
   onlyAllowValidRoutingCodes: boolean;
+  weight: {
+    attribute?: string;
+    unit: 'g' | 'kg';
+    fallbackWeight: number;
+  };
 };
 
 type HandleChangeType = {

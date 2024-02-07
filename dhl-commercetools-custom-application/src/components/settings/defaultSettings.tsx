@@ -18,4 +18,9 @@ export const DEFAULT_SETTINGS: SettingsFormDataType = {
   return: emptyAddress,
   returnIsDispatch: true,
   onlyAllowValidRoutingCodes: false,
+  weight: {
+    attribute: '',
+    unit: 'kg',
+    fallbackWeight: 1,
+  },
 };

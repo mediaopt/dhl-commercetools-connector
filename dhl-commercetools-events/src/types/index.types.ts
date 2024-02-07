@@ -1,4 +1,4 @@
-import { Shipper } from '../parcel-de-shipping';
+import { Shipper, WeightUomEnum } from '../parcel-de-shipping';
 
 export type Message = {
   code: string;
@@ -23,6 +23,11 @@ export type SettingsFormDataType = {
   dispatch: Shipper;
   returnIsDispatch: boolean;
   onlyAllowValidRoutingCodes: boolean;
+  weight: {
+    attribute?: string;
+    unit: WeightUomEnum;
+    fallbackWeight: number;
+  };
 };
 
 export type ShippingMethodDHLCustomFields = {
