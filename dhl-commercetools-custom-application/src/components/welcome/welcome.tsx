@@ -114,11 +114,11 @@ const Welcome = () => {
           content={intl.formatMessage(messages.cardShippingSettingsContent)}
           linkTo={`${match.url}/settings/shipments`}
         />
-            <InfoCard
-              title="Logs and errors"
-              content="Check here for notifications and errors"
-              linkTo={`${match.url}/settings/errors`}
-            />
+        <InfoCard
+          title="Logs and errors"
+          content="Check here for notifications and errors"
+          linkTo={`${match.url}/settings/errors`}
+        />
       </Grid>
     </Constraints.Horizontal>
   );
