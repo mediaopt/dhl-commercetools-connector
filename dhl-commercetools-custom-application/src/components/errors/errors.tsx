@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 import DataTable, { TColumn } from '@commercetools-uikit/data-table';
 import { WarningIcon, InfoIcon, SupportIcon } from '@commercetools-uikit/icons';
 import Text from '@commercetools-uikit/text';
-import { DEFAULT_SETTINGS } from '../settings/defaultSettings';
-import { DHLError } from '../../types/types';
+import { DHLError, OnlySettingsSubPageType } from '../../types/types';
 import { FormattedMessage } from 'react-intl';
 
 type row = DHLError;
@@ -14,8 +13,8 @@ type column = {
   width?: string;
 };
 
-const Errors = () => {
-  const rows: DHLError[] = DEFAULT_SETTINGS.errors || [];
+const Errors = ({ values }: OnlySettingsSubPageType) => {
+  const rows: DHLError[] = values.errors || [];
   const columns: column[] = [
     { key: 'level', label: 'Level', width: '1fr' },
     { key: 'timestamp', label: 'Time', width: '2fr' },
@@ -39,7 +38,7 @@ const Errors = () => {
     }
   };
 
-  if (!DEFAULT_SETTINGS.errors)
+  if (!values.errors || values.errors.length === 0)
     return (
       <>
         <Text.Body>

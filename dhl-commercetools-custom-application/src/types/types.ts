@@ -51,6 +51,10 @@ export type SubSettingsPagePropType = {
   handleChange: HandleChangeType;
 };
 
+export type OnlySettingsSubPageType = {
+  values: SettingsFormDataType;
+};
+
 export type FetchedCustomObjectType = {
   value: SettingsFormDataType;
   version: number;

@@ -84,7 +84,7 @@ const Settings = () => {
               <Shipments handleChange={handleChange} values={values} />
             </Route>
             <Route path={`${match.path}/errors`}>
-              <Errors />
+              <Errors values={values} />
             </Route>
           </Switch>
         </form>
