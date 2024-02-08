@@ -5,11 +5,12 @@ import CheckboxInput from '@commercetools-uikit/checkbox-input';
 import AddressMask from './AddressMask';
 import { SubSettingsPagePropType } from '../../types/types';
 import SubPageWrapper from '../generic/SubPageWrapper';
+import messages from '../welcome/messages';
 
 const Address = ({ values, handleChange }: SubSettingsPagePropType) => {
   return (
     <SubPageWrapper>
-      <Text.Body>PayPal Button</Text.Body>
+      <Text.Headline as="h2" intlMessage={messages.addressSettingsTitle} />
       <AddressMask
         values={values.dispatch}
         handleChange={handleChange}
@@ -33,6 +34,6 @@ const Address = ({ values, handleChange }: SubSettingsPagePropType) => {
     </SubPageWrapper>
   );
 };
-Address.displayName = 'Settings Overview';
+Address.displayName = 'Address Settings';
 
 export default Address;

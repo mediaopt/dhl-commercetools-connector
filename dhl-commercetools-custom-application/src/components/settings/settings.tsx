@@ -17,7 +17,7 @@ import {
 import { DEFAULT_SETTINGS } from './defaultSettings';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import Address from '../address';
-import Label from '../label';
+import Shipments from '../shipments';
 import Errors from '../errors';
 
 const Settings = () => {
@@ -80,8 +80,8 @@ const Settings = () => {
             <Route path={`${match.path}/address`}>
               <Address handleChange={handleChange} values={values} />
             </Route>
-            <Route path={`${match.path}/label`}>
-              <Label handleChange={handleChange} values={values} />
+            <Route path={`${match.path}/shipments`}>
+              <Shipments handleChange={handleChange} values={values} />
             </Route>
             <Route path={`${match.path}/errors`}>
               <Errors />

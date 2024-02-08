@@ -4,8 +4,8 @@
   "Welcome.cardSettingsContent": "Here you can set dispatch address and return address.",
   "Welcome.newCustomerRegistration": "Here you can register to use DHLs services: {link}",
   "Welcome.newCustomerRegistrationLink": "DHLs Business Customer Portal",
-  "Welcome.cardLabelSettingsTitle": "Label printing",
-  "Welcome.cardLabelSettingsContent": "Here you can set the label printing properties.",
+  "Welcome.cardShippingSettingsTitle": "Shipment settings",
+  "Welcome.cardShippingSettingsContent": "Here you have the settings for shipments like weight calculation or label generation.",
   "Settings.returnIsDispatch": "Return address is same as dispatch address",
   "Settings.name1": "Name1. Line 1 of name information",
   "Settings.name2": "An optional, additional line of name information",
@@ -20,5 +20,10 @@
   "Settings.addressSettingsTitle": "Dispatch and return address",
   "Settings.labelSettings": "Label settings",
   "Settings.onlyAllowValidRoutingCodes": "Only allow addresses with valid routing codes",
-  "Settings.errorsEmpty": "No logs available"
+  "Settings.errorsEmpty": "No logs available",
+  "Settings.weight": "Weight calculations",
+  "Settings.weightAttribute": "Attribute in which the article weight is saved in",
+  "Settings.weightAttributeHint": "optional, leave blank to use fallback weight instead",
+  "Settings.weightUnit": "Unit of the weight",
+  "Settings.weightFallback": "If article has no weight in attributes use this instead"
 }

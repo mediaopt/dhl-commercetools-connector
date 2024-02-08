@@ -4,8 +4,8 @@
   "Welcome.cardSettingsContent": "Hier können Sie die Absender- und Retourenadresse verwalten.",
   "Welcome.newCustomerRegistration": "Hier können Sie sich für die Services von DHL registrieren: {link}",
   "Welcome.newCustomerRegistrationLink": "DHLs Geschäftskundenportal",
-  "Welcome.cardLabelSettingsTitle": "Label printing",
-  "Welcome.cardLabelSettingsContent": "Here you can set the label printing properties.",
+  "Welcome.cardShippingSettingsTitle": "Versandeinstellungen",
+  "Welcome.cardShippingSettingsContent": "Hier können die Versandeinstellungen wie Gewichtsberechnung oder Labelgenerierung verwaltet werden.",
   "Settings.returnIsDispatch": "Retourenadresse ist gleich der Absenderadresse",
   "Settings.name1": "Name1. Line 1 of name information",
   "Settings.name2": "An optional, additional line of name information",
@@ -20,5 +20,10 @@
   "Settings.addressSettingsTitle": "Versand- und Retourenadresse",
   "Settings.labelSettings": "Label settings",
   "Settings.onlyAllowValidRoutingCodes": "Nur leitcodierbare Adressen zulassen",
-  "Settings.errorsEmpty": "Keine Logs vorhanden"
+  "Settings.errorsEmpty": "Keine Logs vorhanden",
+  "Settings.weight": "Gewichtsberechnung",
+  "Settings.weightAttribute": "Attribut in dem das Gewicht gespeichert ist",
+  "Settings.weightAttributeHint": "Optional, leer lassen um Standardgewicht zu verwenden",
+  "Settings.weightUnit": "Gewicht in",
+  "Settings.weightFallback": "Wenn der Artikel kein Gewicht in den Attributen hat benutze diesen Wert"
 }

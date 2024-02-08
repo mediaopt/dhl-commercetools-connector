@@ -29,13 +29,13 @@ const config = {
   submenuLinks: [
     {
       uriPath: 'settings/address',
-      defaultLabel: 'DHL Shipping Settings',
+      defaultLabel: 'DHL Address Settings',
       labelAllLocales: [],
       permissions: [PERMISSIONS.Manage],
     },
     {
-      uriPath: 'settings/label',
-      defaultLabel: 'DHL Label Settings',
+      uriPath: 'settings/shipments',
+      defaultLabel: 'DHL Shipment Settings',
       labelAllLocales: [],
       permissions: [PERMISSIONS.Manage],
     },

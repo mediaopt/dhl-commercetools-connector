@@ -23,4 +23,10 @@ export const CUSTOM_OBJECT_DEFAULT_VALUES: SettingsFormDataType = {
   dispatch: emptyAddress,
   return: emptyAddress,
   returnIsDispatch: true,
+  onlyAllowValidRoutingCodes: false,
+  weight: {
+    attribute: '',
+    unit: 'kg',
+    fallbackWeight: 1,
+  },
 };

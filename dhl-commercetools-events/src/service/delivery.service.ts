@@ -126,17 +126,21 @@ const createLabel = async (order: Order, delivery: Delivery) => {
       : undefined
   );
   try {
+    const shipment = mapCommercetoolsOrderToDHLShipment(
+      order,
+      delivery,
+      settings
+    );
+    logger.info(JSON.stringify(shipment));
     const response = (
       await api.createOrders(
         {
           profile: 'STANDARD_GRUPPENPROFIL',
-          shipments: [
-            mapCommercetoolsOrderToDHLShipment(order, delivery, settings),
-          ],
+          shipments: [shipment],
         },
         undefined,
         undefined,
-        undefined,
+        settings?.onlyAllowValidRoutingCodes ?? false,
         'URL'
       )
     ).data;
