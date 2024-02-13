@@ -1,4 +1,5 @@
 import { Shipper, WeightUomEnum } from '../parcel-de-shipping';
+import { DHL_PRODUCTS } from '../constants';
 
 export type Message = {
   code: string;
@@ -32,8 +33,8 @@ export type SettingsFormDataType = {
 
 export type ShippingMethodDHLCustomFields = {
   ekp: string;
-  product: DHLProduct;
   participation: string;
 };
 
+export type DHLShippingMethodType = keyof typeof DHL_PRODUCTS;
 export type DHLProduct = 'V01PAK' | 'V53WPAK' | 'V54EPAK' | 'V62WP' | 'V66WPI';

@@ -18,9 +18,12 @@ import {
 } from '@commercetools/platform-sdk';
 import CustomError from '../errors/custom.error';
 import {
+  DHLProduct,
   SettingsFormDataType,
+  DHLShippingMethodType,
   ShippingMethodDHLCustomFields,
 } from '../types/index.types';
+import { DHL_PRODUCTS } from '../constants';
 
 function mapConsignee(shippingAddress?: Address): Consignee {
   if (!shippingAddress) {
@@ -53,16 +56,20 @@ function removeEmptyProperties<T extends Object>(object: T): T {
   return Object.fromEntries(Object.entries(object).filter(([_, v]) => v)) as T;
 }
 
-function mapBillingNumber(fields: ShippingMethodDHLCustomFields) {
-  return `${fields.ekp}${productProcedureMapping[fields.product]}${
-    fields.participation
-  }`;
+function mapBillingNumber(
+  product: DHLProduct,
+  fields: ShippingMethodDHLCustomFields
+) {
+  return `${fields.ekp}${productProcedureMapping[product]}${fields.participation}`;
 }
 
-function mapReturnBillingNumber(fields: ShippingMethodDHLCustomFields) {
+function mapReturnBillingNumber(
+  product: DHLProduct,
+  fields: ShippingMethodDHLCustomFields
+) {
   return `${fields.ekp}${
     productReturnProcedureMapping[
-      fields.product as keyof typeof productReturnProcedureMapping
+      product as keyof typeof productReturnProcedureMapping
     ]
   }${fields.participation}`;
 }
@@ -127,6 +134,12 @@ export const mapCommercetoolsOrderToDHLShipment = (
   settings: SettingsFormDataType
 ): Shipment => {
   var shippingMethod = order.shippingInfo?.shippingMethod?.obj;
+  if (!shippingMethod?.custom?.type?.obj?.key) {
+    throw new CustomError(500, 'Shipping method is not a DHL type');
+  }
+  const dhlProduct = <DHLProduct>(
+    DHL_PRODUCTS[shippingMethod.custom.type.obj.key as DHLShippingMethodType]
+  );
   var dhlCustomFields = shippingMethod?.custom
     ?.fields as ShippingMethodDHLCustomFields;
   if (!dhlCustomFields) {
@@ -134,16 +147,14 @@ export const mapCommercetoolsOrderToDHLShipment = (
   }
   const items = mapItems(order, delivery.items, settings);
   return {
-    product: dhlCustomFields.product,
-    billingNumber: mapBillingNumber(dhlCustomFields),
+    product: dhlProduct,
+    billingNumber: mapBillingNumber(dhlProduct, dhlCustomFields),
     shipper: mapShipper(settings),
     consignee: mapConsignee(order.shippingAddress),
     services: {
-      dhlRetoure: productReturnProcedureMapping.hasOwnProperty(
-        dhlCustomFields.product
-      )
+      dhlRetoure: productReturnProcedureMapping.hasOwnProperty(dhlProduct)
         ? {
-            billingNumber: mapReturnBillingNumber(dhlCustomFields),
+            billingNumber: mapReturnBillingNumber(dhlProduct, dhlCustomFields),
             returnAddress: mapReturnAddress(settings),
           }
         : undefined,

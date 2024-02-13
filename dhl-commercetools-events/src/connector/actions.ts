@@ -6,6 +6,11 @@ import {
 } from '@commercetools/platform-sdk';
 import {
   CUSTOM_OBJECT_DEFAULT_VALUES,
+  //DHL_SHIPPING_METHOD_DHL_EUROPAKET,
+  DHL_SHIPPING_METHOD_DHL_PAKET,
+  DHL_SHIPPING_METHOD_DHL_PAKET_INTERNATIONAL,
+  DHL_SHIPPING_METHOD_WARENPOST,
+  DHL_SHIPPING_METHOD_WARENPOST_INTERNATIONAL,
   GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
   GRAPHQL_CUSTOMOBJECT_KEY_NAME,
 } from '../constants';
@@ -14,7 +19,44 @@ const DELIVERY_ADDED_SUBSCRIPTION_KEY =
   'dhl-connector-deliveryAddedSubscription';
 
 const DHL_PARCEL_TYPE_KEY = 'dhl-parcel-type';
-const DHL_SHIPPING_METHOD_TYPE_KEY = 'dhl-shipping-method-type';
+
+const SHIPPING_METHOD_CUSTOM_TYPES = [
+  {
+    key: DHL_SHIPPING_METHOD_DHL_PAKET,
+    name: {
+      en: 'DHL Paket',
+    },
+    fieldDefinitions: [],
+  },
+  {
+    key: DHL_SHIPPING_METHOD_DHL_PAKET_INTERNATIONAL,
+    name: {
+      en: 'DHL Paket International',
+    },
+    fieldDefinitions: [],
+  },
+  {
+    key: DHL_SHIPPING_METHOD_WARENPOST,
+    name: {
+      en: 'Warenpost',
+    },
+    fieldDefinitions: [],
+  },
+  {
+    key: DHL_SHIPPING_METHOD_WARENPOST_INTERNATIONAL,
+    name: {
+      en: 'Warenpost International',
+    },
+    fieldDefinitions: [],
+  },
+  // {
+  //   key: DHL_SHIPPING_METHOD_DHL_EUROPAKET,
+  //   name: {
+  //     en: 'DHL Europaket',
+  //   },
+  //   fieldDefinitions: [],
+  // },
+];
 
 export async function createDeliveryAddedSubscription(
   apiRoot: ByProjectKeyRequestBuilder,
@@ -110,74 +152,41 @@ export const createParcelCustomType = async (
   await addOrUpdateCustomType(apiRoot, customType);
 };
 
-export const createShippingMethodCustomType = async (
+export const createShippingMethodCustomTypes = async (
   apiRoot: ByProjectKeyRequestBuilder
 ) => {
-  const customType = {
-    key: DHL_SHIPPING_METHOD_TYPE_KEY,
-    name: {
-      en: 'Custom DHL shipping method type',
-    },
-    resourceTypeIds: ['shipping-method'],
-    fieldDefinitions: [
-      {
-        name: `ekp`,
-        label: {
-          en: `EKP`,
-          de: 'EKP',
-        },
-        type: {
-          name: 'String',
-        },
-        required: true,
-      } as FieldDefinition,
-      {
-        name: `product`,
-        label: {
-          en: `Product`,
-          de: 'Product',
-        },
-        type: {
-          name: 'Enum',
-          values: [
-            {
-              key: 'V01PAK',
-              label: 'DHL Paket',
+  await Promise.all(
+    SHIPPING_METHOD_CUSTOM_TYPES.map(async (customType) => {
+      return addOrUpdateCustomType(apiRoot, {
+        ...customType,
+        resourceTypeIds: ['shipping-method'],
+        fieldDefinitions: [
+          {
+            name: `ekp`,
+            label: {
+              en: `EKP`,
+              de: 'EKP',
             },
-            {
-              key: 'V53WPAK',
-              label: 'DHL Paket International',
+            type: {
+              name: 'String',
             },
-            {
-              key: 'V54EPAK',
-              label: 'DHL Europaket',
+            required: true,
+          } as FieldDefinition,
+          {
+            name: `participation`,
+            label: {
+              en: `Contract Participation`,
+              de: 'Teilnahme',
             },
-            {
-              key: 'V62WP',
-              label: 'Warenpost',
+            type: {
+              name: 'String',
             },
-            {
-              key: 'V66WPI',
-              label: 'Warenpost International',
-            },
-          ],
-        },
-        required: true,
-      } as FieldDefinition,
-      {
-        name: `participation`,
-        label: {
-          en: `Contract Participation`,
-          de: 'Teilnahme',
-        },
-        type: {
-          name: 'String',
-        },
-        required: true,
-      } as FieldDefinition,
-    ],
-  };
-  await addOrUpdateCustomType(apiRoot, customType);
+            required: true,
+          } as FieldDefinition,
+        ].concat(customType.fieldDefinitions),
+      });
+    })
+  );
 };
 
 async function addOrUpdateCustomType(

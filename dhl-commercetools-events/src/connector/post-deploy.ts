@@ -7,7 +7,7 @@ import {
   createAndSetCustomObject,
   createDeliveryAddedSubscription,
   createParcelCustomType,
-  createShippingMethodCustomType,
+  createShippingMethodCustomTypes,
 } from './actions';
 
 const CONNECT_GCP_TOPIC_NAME_KEY = 'CONNECT_GCP_TOPIC_NAME';
@@ -22,7 +22,7 @@ async function postDeploy(properties: Map<string, unknown>): Promise<void> {
 
   const apiRoot = createApiRoot();
   await createParcelCustomType(apiRoot);
-  await createShippingMethodCustomType(apiRoot);
+  await createShippingMethodCustomTypes(apiRoot);
   await createDeliveryAddedSubscription(apiRoot, topicName, projectId);
   await createAndSetCustomObject(apiRoot);
 }

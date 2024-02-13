@@ -13,10 +13,7 @@ import {
 } from '../parcel-de-shipping';
 import { AxiosError } from 'axios';
 import { mapCommercetoolsOrderToDHLShipment } from '../utils/map.utils';
-import {
-  SettingsFormDataType,
-  ShippingMethodDHLCustomFields,
-} from '../types/index.types';
+import { SettingsFormDataType } from '../types/index.types';
 
 const DHL_PARCEL_API_KEY = 'eg391xkOwa007rDuCVJqAo2wzG4pmWI5';
 
@@ -28,7 +25,10 @@ async function getOrderByDeliveryId(deliveryId: string) {
       .get({
         queryArgs: {
           where: `shippingInfo(deliveries(id = "${deliveryId}"))`,
-          expand: 'shippingInfo.shippingMethod',
+          expand: [
+            'shippingInfo.shippingMethod',
+            'shippingInfo.shippingMethod.custom.type',
+          ],
         },
       })
       .execute()
@@ -85,12 +85,8 @@ export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
   const order = await getOrderByDeliveryId(delivery.id);
   logger.info(`Got Order with id ${order.id}`);
   var shippingMethod = order.shippingInfo?.shippingMethod?.obj;
-  var dhlCustomFields = shippingMethod?.custom
-    ?.fields as ShippingMethodDHLCustomFields;
   if (
-    !dhlCustomFields.product ||
-    !dhlCustomFields.ekp ||
-    !dhlCustomFields.participation
+    !shippingMethod?.custom?.type?.obj?.key.startsWith('dhl-shipping-method-')
   ) {
     return;
   }
