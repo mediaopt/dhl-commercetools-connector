@@ -1,4 +1,8 @@
-import { Shipper, WeightUomEnum } from '../parcel-de-shipping';
+import {
+  CustomsDetailsShippingConditionsEnum,
+  Shipper,
+  WeightUomEnum,
+} from '../parcel-de-shipping';
 import { DHL_PRODUCTS } from '../constants';
 
 export type Message = {
@@ -34,6 +38,7 @@ export type SettingsFormDataType = {
 export type ShippingMethodDHLCustomFields = {
   ekp: string;
   participation: string;
+  shippingConditions?: CustomsDetailsShippingConditionsEnum;
 };
 
 export type DHLShippingMethodType = keyof typeof DHL_PRODUCTS;
