@@ -140,7 +140,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
   const dhlProduct = <DHLProduct>(
     DHL_PRODUCTS[shippingMethod.custom.type.obj.key as DHLShippingMethodType]
   );
-  var dhlCustomFields = shippingMethod?.custom
+  const dhlCustomFields = shippingMethod?.custom
     ?.fields as ShippingMethodDHLCustomFields;
   if (!dhlCustomFields) {
     throw new CustomError(500, 'Shipping method is not a dhl shipping method');
@@ -168,6 +168,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
             currency: order.totalPrice.currencyCode as ValueCurrencyEnum,
             value: 0.0,
           },
+      shippingConditions: dhlCustomFields?.shippingConditions,
     },
     details: {
       weight: {

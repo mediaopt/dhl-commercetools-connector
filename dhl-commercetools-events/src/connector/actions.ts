@@ -6,7 +6,7 @@ import {
 } from '@commercetools/platform-sdk';
 import {
   CUSTOM_OBJECT_DEFAULT_VALUES,
-  //DHL_SHIPPING_METHOD_DHL_EUROPAKET,
+  DHL_SHIPPING_METHOD_DHL_EUROPAKET,
   DHL_SHIPPING_METHOD_DHL_PAKET,
   DHL_SHIPPING_METHOD_DHL_PAKET_INTERNATIONAL,
   DHL_SHIPPING_METHOD_WARENPOST,
@@ -14,6 +14,7 @@ import {
   GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
   GRAPHQL_CUSTOMOBJECT_KEY_NAME,
 } from '../constants';
+import { CustomsDetailsShippingConditionsEnum } from '../parcel-de-shipping';
 
 const DELIVERY_ADDED_SUBSCRIPTION_KEY =
   'dhl-connector-deliveryAddedSubscription';
@@ -49,13 +50,43 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
     },
     fieldDefinitions: [],
   },
-  // {
-  //   key: DHL_SHIPPING_METHOD_DHL_EUROPAKET,
-  //   name: {
-  //     en: 'DHL Europaket',
-  //   },
-  //   fieldDefinitions: [],
-  // },
+  {
+    key: DHL_SHIPPING_METHOD_DHL_EUROPAKET,
+    name: {
+      en: 'DHL Europaket',
+    },
+    fieldDefinitions: [
+      {
+        name: `shippingConditions`,
+        label: {
+          en: `Terms of Trade`,
+          de: 'Frankatur',
+        },
+        type: {
+          name: 'Enum',
+          values: [
+            {
+              key: CustomsDetailsShippingConditionsEnum.Dap,
+              label: 'DAP (Delivered at Place)',
+            },
+            {
+              key: CustomsDetailsShippingConditionsEnum.Ddp,
+              label: 'DDP (Delivery Duty Paid)',
+            },
+            {
+              key: CustomsDetailsShippingConditionsEnum.Ddx,
+              label: 'DDX (Delivery Duty Paid, excl. Duties, Taxes and VAT)',
+            },
+            {
+              key: CustomsDetailsShippingConditionsEnum.Dxv,
+              label: 'DXV (Delivery Duty Paid, excl. VAT)',
+            },
+          ],
+        },
+        required: true,
+      } as FieldDefinition,
+    ],
+  },
 ];
 
 export async function createDeliveryAddedSubscription(
