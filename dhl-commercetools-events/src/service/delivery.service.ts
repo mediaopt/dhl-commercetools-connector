@@ -2,6 +2,7 @@ import {
   Delivery,
   Order,
   OrderAddParcelToDeliveryAction,
+  Parcel,
 } from '@commercetools/platform-sdk';
 import { logger } from '../utils/logger.utils';
 import { createApiRoot } from '../client/create.client';
@@ -14,6 +15,7 @@ import {
 import { AxiosError } from 'axios';
 import { mapCommercetoolsOrderToDHLShipment } from '../utils/map.utils';
 import { SettingsFormDataType } from '../types/index.types';
+import { DHL_DEFAULT_PROFILE } from '../constants';
 
 const DHL_PARCEL_API_KEY = 'eg391xkOwa007rDuCVJqAo2wzG4pmWI5';
 
@@ -69,6 +71,7 @@ async function storeLabelForOrder(
               fields: {
                 deliveryLabel: label.label?.url,
                 customsLabel: label.customsDoc?.url,
+                dhlShipmentNumber: label.shipmentNo,
               },
             },
           } as OrderAddParcelToDeliveryAction,
@@ -79,6 +82,14 @@ async function storeLabelForOrder(
     })
     .execute();
 }
+
+export const handleParcelRemovedMessage = async (parcel: Parcel) => {
+  logger.info(`Got Parcel with id ${parcel.id}`);
+  if (!parcel?.custom?.fields?.dhlShipmentNumber) {
+    return;
+  }
+  await deleteLabel(parcel?.custom?.fields?.dhlShipmentNumber);
+};
 
 export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
   logger.info(`Got Delivery with id ${delivery.id}`);
@@ -109,9 +120,8 @@ async function getSettings(): Promise<SettingsFormDataType> {
   ).body.value;
 }
 
-const createLabel = async (order: Order, delivery: Delivery) => {
-  const settings = await getSettings();
-  const api = ShipmentsAndLabelsApiFactory(
+function buildApi() {
+  return ShipmentsAndLabelsApiFactory(
     {
       username: process.env.DHL_GKP_USERNAME,
       password: process.env.DHL_GKP_PASSWORD,
@@ -121,6 +131,11 @@ const createLabel = async (order: Order, delivery: Delivery) => {
       ? 'https://api-sandbox.dhl.com/parcel/de/shipping/v2'
       : undefined
   );
+}
+
+const createLabel = async (order: Order, delivery: Delivery) => {
+  const settings = await getSettings();
+  const api = buildApi();
   try {
     const shipment = mapCommercetoolsOrderToDHLShipment(
       order,
@@ -131,7 +146,7 @@ const createLabel = async (order: Order, delivery: Delivery) => {
     const response = (
       await api.createOrders(
         {
-          profile: 'STANDARD_GRUPPENPROFIL',
+          profile: DHL_DEFAULT_PROFILE,
           shipments: [shipment],
         },
         undefined,
@@ -141,6 +156,33 @@ const createLabel = async (order: Order, delivery: Delivery) => {
       )
     ).data;
     if (response.status?.statusCode === 200 && response.items) {
+      return response.items[0];
+    }
+    throw new CustomError(
+      response.status?.statusCode ?? 500,
+      response.status?.detail ?? 'There was an error in handling the request'
+    );
+  } catch (e: any) {
+    if (e instanceof AxiosError) {
+      logger.info(JSON.stringify(e.response?.data));
+    }
+    logger.error(e.message);
+    throw e;
+  }
+};
+
+export const deleteLabel = async (shipmentNumber: string) => {
+  const api = buildApi();
+  try {
+    logger.info(`Will delete label for shipment number ${shipmentNumber}`);
+    const response = (
+      await api.ordersAccountDelete(DHL_DEFAULT_PROFILE, shipmentNumber)
+    ).data;
+    if (response.status?.statusCode === 200 && response.items) {
+      logger.info(
+        `Deleted label for shipment number ${shipmentNumber}. Status is ${response.items[0].sstatus.title}`
+      );
+
       return response.items[0];
     }
     throw new CustomError(

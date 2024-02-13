@@ -16,8 +16,8 @@ import {
 } from '../constants';
 import { CustomsDetailsShippingConditionsEnum } from '../parcel-de-shipping';
 
-const DELIVERY_ADDED_SUBSCRIPTION_KEY =
-  'dhl-connector-deliveryAddedSubscription';
+const ORDER_MESSAGES_SUBSCRIPTION_KEY =
+  'dhl-connector-orderMessagesSubscription';
 
 const DHL_PARCEL_TYPE_KEY = 'dhl-parcel-type';
 
@@ -89,18 +89,18 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
   },
 ];
 
-export async function createDeliveryAddedSubscription(
+export async function createOrderMessagesSubscription(
   apiRoot: ByProjectKeyRequestBuilder,
   topicName: string,
   projectId: string
 ): Promise<void> {
-  await deleteDeliveryAddedSubscription(apiRoot);
+  await deleteOrderMessagesSubscription(apiRoot);
 
   await apiRoot
     .subscriptions()
     .post({
       body: {
-        key: DELIVERY_ADDED_SUBSCRIPTION_KEY,
+        key: ORDER_MESSAGES_SUBSCRIPTION_KEY,
         destination: {
           type: 'GoogleCloudPubSub',
           topic: topicName,
@@ -109,7 +109,7 @@ export async function createDeliveryAddedSubscription(
         messages: [
           {
             resourceTypeId: 'order',
-            types: ['DeliveryAdded'],
+            types: ['DeliveryAdded', 'removeParcelFromDelivery'],
           },
         ],
       },
@@ -117,7 +117,7 @@ export async function createDeliveryAddedSubscription(
     .execute();
 }
 
-export async function deleteDeliveryAddedSubscription(
+export async function deleteOrderMessagesSubscription(
   apiRoot: ByProjectKeyRequestBuilder
 ): Promise<void> {
   const {
@@ -126,7 +126,7 @@ export async function deleteDeliveryAddedSubscription(
     .subscriptions()
     .get({
       queryArgs: {
-        where: `key = "${DELIVERY_ADDED_SUBSCRIPTION_KEY}"`,
+        where: `key = "${ORDER_MESSAGES_SUBSCRIPTION_KEY}"`,
       },
     })
     .execute();
@@ -136,7 +136,7 @@ export async function deleteDeliveryAddedSubscription(
 
     await apiRoot
       .subscriptions()
-      .withKey({ key: DELIVERY_ADDED_SUBSCRIPTION_KEY })
+      .withKey({ key: ORDER_MESSAGES_SUBSCRIPTION_KEY })
       .delete({
         queryArgs: {
           version: subscription.version,
@@ -156,6 +156,17 @@ export const createParcelCustomType = async (
     },
     resourceTypeIds: ['order-parcel'],
     fieldDefinitions: [
+      {
+        name: `dhlShipmentNumber`,
+        label: {
+          en: `DHL Shipment Number`,
+          de: 'DHL Sendungsnummer',
+        },
+        type: {
+          name: 'String',
+        },
+        required: false,
+      } as FieldDefinition,
       {
         name: `deliveryLabel`,
         label: {

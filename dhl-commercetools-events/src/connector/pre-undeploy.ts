@@ -3,11 +3,11 @@ dotenv.config();
 
 import { createApiRoot } from '../client/create.client';
 import { assertError } from '../utils/assert.utils';
-import { deleteDeliveryAddedSubscription } from './actions';
+import { deleteOrderMessagesSubscription } from './actions';
 
 async function preUndeploy(): Promise<void> {
   const apiRoot = createApiRoot();
-  await deleteDeliveryAddedSubscription(apiRoot);
+  await deleteOrderMessagesSubscription(apiRoot);
 }
 
 async function run(): Promise<void> {
