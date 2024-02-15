@@ -44,7 +44,7 @@ deployAs:
         - key: DHL_GKP_PASSWORD
           description: Password from Post & DHL Business Customer Portal
   - name: dhl-commercetools-custom-application
-    applicationType: mc-app
+    applicationType: merchant-center-custom-application
     endpoint: /
     configuration:
       standardConfiguration:
