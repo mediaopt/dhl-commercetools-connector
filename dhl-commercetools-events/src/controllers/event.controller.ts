@@ -2,7 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import CustomError from '../errors/custom.error';
 import { logger } from '../utils/logger.utils';
 import { MessagePayload } from '@commercetools/platform-sdk';
-import { handleDeliveryAddedMessage } from '../service/delivery.service';
+import {
+  handleDeliveryAddedMessage,
+  handleParcelRemovedMessage,
+} from '../service/delivery.service';
 
 function parseRequest(request: Request) {
   if (!request.body) {
@@ -43,6 +46,10 @@ export const post = async (
     switch (message.type) {
       case 'DeliveryAdded':
         await handleDeliveryAddedMessage(message.delivery);
+        response.status(204).send();
+        return;
+      case 'ParcelRemovedFromDelivery':
+        await handleParcelRemovedMessage(message.parcel);
         response.status(204).send();
         return;
       default:
