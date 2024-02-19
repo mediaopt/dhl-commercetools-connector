@@ -48,3 +48,9 @@ export const CUSTOM_OBJECT_DEFAULT_VALUES: SettingsFormDataType = {
     fallbackWeight: 1,
   },
 };
+
+export const IDENT_CHECK_MINIMUM_AGE_ENUM = {
+  None: 'none',
+  A16: 'A16',
+  A18: 'A18',
+};
