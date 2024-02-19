@@ -54,6 +54,17 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
         },
         required: false,
       } as FieldDefinition,
+      {
+        name: `additionalInsurance`,
+        label: {
+          en: 'Additional insurance',
+          de: 'Transportversicherung',
+        },
+        type: {
+          name: 'Boolean',
+        },
+        required: false,
+      } as FieldDefinition,
     ],
   },
   {
@@ -68,7 +79,19 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
     name: {
       en: 'Warenpost',
     },
-    fieldDefinitions: [],
+    fieldDefinitions: [
+      {
+        name: `additionalInsurance`,
+        label: {
+          en: 'Additional insurance',
+          de: 'Transportversicherung',
+        },
+        type: {
+          name: 'Boolean',
+        },
+        required: false,
+      } as FieldDefinition,
+    ],
   },
   {
     key: DHL_SHIPPING_METHOD_WARENPOST_INTERNATIONAL,
@@ -111,6 +134,17 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
           ],
         },
         required: true,
+      } as FieldDefinition,
+      {
+        name: `additionalInsurance`,
+        label: {
+          en: 'Additional insurance',
+          de: 'Transportversicherung',
+        },
+        type: {
+          name: 'Boolean',
+        },
+        required: false,
       } as FieldDefinition,
     ],
   },
