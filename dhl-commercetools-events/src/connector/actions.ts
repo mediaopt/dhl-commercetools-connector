@@ -295,17 +295,20 @@ export async function createAndSetCustomObject(
     })
     .get()
     .execute();
+  let customObjectValue = CUSTOM_OBJECT_DEFAULT_VALUES;
   if (existingSettingsObject.body.value) {
-    return;
+    customObjectValue = {
+      ...customObjectValue,
+      ...existingSettingsObject.body.value,
+    };
   }
-
   await apiRoot
     .customObjects()
     .post({
       body: {
         container: GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
         key: GRAPHQL_CUSTOMOBJECT_KEY_NAME,
-        value: CUSTOM_OBJECT_DEFAULT_VALUES,
+        value: customObjectValue,
       },
     })
     .execute();
