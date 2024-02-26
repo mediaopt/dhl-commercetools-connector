@@ -39,6 +39,7 @@ export type ShippingMethodDHLCustomFields = {
   ekp: string;
   participation: string;
   shippingConditions?: CustomsDetailsShippingConditionsEnum;
+  additionalInsurance?: boolean;
 };
 
 export type DHLShippingMethodType = keyof typeof DHL_PRODUCTS;
