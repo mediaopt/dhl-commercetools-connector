@@ -13,6 +13,7 @@ import {
   DHL_SHIPPING_METHOD_WARENPOST_INTERNATIONAL,
   GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
   GRAPHQL_CUSTOMOBJECT_KEY_NAME,
+  IDENT_CHECK_MINIMUM_AGE_ENUM,
 } from '../constants';
 import { CustomsDetailsShippingConditionsEnum } from '../parcel-de-shipping';
 
@@ -27,7 +28,44 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
     name: {
       en: 'DHL Paket',
     },
-    fieldDefinitions: [],
+    fieldDefinitions: [
+      {
+        name: `identCheckMinimumAge`,
+        label: {
+          en: `Minimum age`,
+          de: 'Alterssichtprüfung',
+        },
+        type: {
+          name: 'Enum',
+          values: [
+            {
+              key: IDENT_CHECK_MINIMUM_AGE_ENUM.None,
+              label: 'no check',
+            },
+            {
+              key: IDENT_CHECK_MINIMUM_AGE_ENUM.A16,
+              label: '16+',
+            },
+            {
+              key: IDENT_CHECK_MINIMUM_AGE_ENUM.A18,
+              label: '18+',
+            },
+          ],
+        },
+        required: false,
+      } as FieldDefinition,
+      {
+        name: `additionalInsurance`,
+        label: {
+          en: 'Additional insurance',
+          de: 'Transportversicherung',
+        },
+        type: {
+          name: 'Boolean',
+        },
+        required: false,
+      } as FieldDefinition,
+    ],
   },
   {
     key: DHL_SHIPPING_METHOD_DHL_PAKET_INTERNATIONAL,
@@ -41,7 +79,19 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
     name: {
       en: 'Warenpost',
     },
-    fieldDefinitions: [],
+    fieldDefinitions: [
+      {
+        name: `additionalInsurance`,
+        label: {
+          en: 'Additional insurance',
+          de: 'Transportversicherung',
+        },
+        type: {
+          name: 'Boolean',
+        },
+        required: false,
+      } as FieldDefinition,
+    ],
   },
   {
     key: DHL_SHIPPING_METHOD_WARENPOST_INTERNATIONAL,
@@ -84,6 +134,17 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
           ],
         },
         required: true,
+      } as FieldDefinition,
+      {
+        name: `additionalInsurance`,
+        label: {
+          en: 'Additional insurance',
+          de: 'Transportversicherung',
+        },
+        type: {
+          name: 'Boolean',
+        },
+        required: false,
       } as FieldDefinition,
     ],
   },

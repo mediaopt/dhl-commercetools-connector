@@ -133,7 +133,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
   delivery: Delivery,
   settings: SettingsFormDataType
 ): Shipment => {
-  var shippingMethod = order.shippingInfo?.shippingMethod?.obj;
+  const shippingMethod = order.shippingInfo?.shippingMethod?.obj;
   if (!shippingMethod?.custom?.type?.obj?.key) {
     throw new CustomError(500, 'Shipping method is not a DHL type');
   }
@@ -158,6 +158,17 @@ export const mapCommercetoolsOrderToDHLShipment = (
             returnAddress: mapReturnAddress(settings),
           }
         : undefined,
+      additionalInsurance: dhlCustomFields?.additionalInsurance
+        ? {
+            currency: order.totalPrice.currencyCode as ValueCurrencyEnum,
+            value: items.reduce(
+              (previousValue, item) =>
+                previousValue + item.itemValue.value * item.packagedQuantity,
+              0
+            ),
+          }
+        : undefined,
+      visualCheckOfAge: dhlCustomFields?.identCheckMinimumAge || undefined,
     },
     customs: {
       exportType: 'COMMERCIAL_GOODS',
