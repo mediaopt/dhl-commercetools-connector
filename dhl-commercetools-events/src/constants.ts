@@ -50,7 +50,7 @@ export const CUSTOM_OBJECT_DEFAULT_VALUES: SettingsFormDataType = {
 };
 
 export const IDENT_CHECK_MINIMUM_AGE_ENUM = {
-  None: 'none',
+  None: '',
   A16: 'A16',
   A18: 'A18',
 };

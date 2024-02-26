@@ -1,6 +1,7 @@
 import {
   CustomsDetailsShippingConditionsEnum,
   Shipper,
+  VASVisualCheckOfAgeEnum,
   WeightUomEnum,
 } from '../parcel-de-shipping';
 import { DHL_PRODUCTS } from '../constants';
@@ -40,6 +41,7 @@ export type ShippingMethodDHLCustomFields = {
   participation: string;
   shippingConditions?: CustomsDetailsShippingConditionsEnum;
   additionalInsurance?: boolean;
+  identCheckMinimumAge?: '' | VASVisualCheckOfAgeEnum;
 };
 
 export type DHLShippingMethodType = keyof typeof DHL_PRODUCTS;

@@ -168,6 +168,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
             ),
           }
         : undefined,
+      visualCheckOfAge: dhlCustomFields?.identCheckMinimumAge || undefined,
     },
     customs: {
       exportType: 'COMMERCIAL_GOODS',
