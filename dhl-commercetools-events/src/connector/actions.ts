@@ -170,7 +170,7 @@ export async function createOrderMessagesSubscription(
         messages: [
           {
             resourceTypeId: 'order',
-            types: ['DeliveryAdded', 'removeParcelFromDelivery'],
+            types: ['DeliveryAdded', 'ParcelRemovedFromDelivery'],
           },
         ],
       },
