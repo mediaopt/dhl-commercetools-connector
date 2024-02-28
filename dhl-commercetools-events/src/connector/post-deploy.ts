@@ -5,6 +5,7 @@ import { createApiRoot } from '../client/create.client';
 import { assertError, assertString } from '../utils/assert.utils';
 import {
   createAndSetCustomObject,
+  createDeliveryCustomType,
   createOrderMessagesSubscription,
   createParcelCustomType,
   createShippingMethodCustomTypes,
@@ -22,6 +23,7 @@ async function postDeploy(properties: Map<string, unknown>): Promise<void> {
 
   const apiRoot = createApiRoot();
   await createParcelCustomType(apiRoot);
+  await createDeliveryCustomType(apiRoot);
   await createShippingMethodCustomTypes(apiRoot);
   await createOrderMessagesSubscription(apiRoot, topicName, projectId);
   await createAndSetCustomObject(apiRoot);
