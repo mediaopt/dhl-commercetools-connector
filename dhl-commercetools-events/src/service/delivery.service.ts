@@ -10,7 +10,6 @@ import CustomError from '../errors/custom.error';
 import {
   Configuration,
   LabelDataResponse,
-  ResponseItem,
   ShipmentsAndLabelsApiFactory,
 } from '../parcel-de-shipping';
 import { AxiosError } from 'axios';
@@ -21,6 +20,7 @@ import {
   DHL_DELIVERY_TYPE_KEY,
   DHL_PARCEL_TYPE_KEY,
 } from '../connector/actions';
+import { OrderUpdateAction } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/order';
 
 const DHL_PARCEL_API_KEY = 'eg391xkOwa007rDuCVJqAo2wzG4pmWI5';
 
@@ -49,45 +49,6 @@ async function getOrderByDeliveryId(deliveryId: string) {
   return orders.results[0];
 }
 
-async function storeLabelForOrder(
-  order: Order,
-  delivery: Delivery,
-  label: ResponseItem
-) {
-  const apiRoot = createApiRoot();
-  await apiRoot
-    .orders()
-    .withId({ ID: order.id })
-    .post({
-      body: {
-        actions: [
-          {
-            action: 'addParcelToDelivery',
-            deliveryId: delivery.id,
-            trackingData: {
-              trackingId: label.shipmentNo,
-              carrier: 'DHL',
-            },
-            custom: {
-              type: {
-                typeId: 'type',
-                key: DHL_PARCEL_TYPE_KEY,
-              },
-              fields: {
-                deliveryLabel: label.label?.url,
-                customsLabel: label.customsDoc?.url,
-                dhlShipmentNumber: label.shipmentNo,
-              },
-            },
-          } as OrderAddParcelToDeliveryAction,
-        ],
-
-        version: order.version,
-      },
-    })
-    .execute();
-}
-
 export const handleParcelRemovedMessage = async (parcel: Parcel) => {
   logger.info(`Got Parcel with id ${parcel.id}`);
   if (!parcel?.custom?.fields?.dhlShipmentNumber) {
@@ -107,7 +68,6 @@ export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
     return;
   }
   const label = await createLabel(order, delivery);
-  await storeLabelForOrder(order, delivery, label);
   logger.info(JSON.stringify(label));
 };
 
@@ -157,28 +117,51 @@ const logDHLResponse = async (
 ) => {
   logger.info('logDHLResponse called');
   const apiRoot = createApiRoot();
+  const actions: OrderUpdateAction[] = [
+    {
+      action: 'setDeliveryCustomType',
+      type: {
+        typeId: 'type',
+        key: DHL_DELIVERY_TYPE_KEY,
+      },
+      fields: {
+        dhlStatus:
+          `${response?.status?.title}(${response?.status?.statusCode})` +
+          (response.status?.detail ? `: ${response.status?.detail}` : ''),
+        dhlValidationMessages: parseDhlValidationMessages(response),
+      },
+      deliveryId: delivery.id,
+    },
+  ];
+  if (response.status?.statusCode === 200 && response.items) {
+    const label = response.items[0];
+    actions.push({
+      action: 'addParcelToDelivery',
+      deliveryId: delivery.id,
+      trackingData: {
+        trackingId: label.shipmentNo,
+        carrier: 'DHL',
+      },
+      custom: {
+        type: {
+          typeId: 'type',
+          key: DHL_PARCEL_TYPE_KEY,
+        },
+        fields: {
+          deliveryLabel: label.label?.url,
+          customsLabel: label.customsDoc?.url,
+          dhlShipmentNumber: label.shipmentNo,
+        },
+      },
+    } as OrderAddParcelToDeliveryAction);
+  }
   return apiRoot
     .orders()
     .withId({ ID: order.id })
     .post({
       body: {
         version: order.version,
-        actions: [
-          {
-            action: 'setDeliveryCustomType',
-            type: {
-              typeId: 'type',
-              key: DHL_DELIVERY_TYPE_KEY,
-            },
-            fields: {
-              dhlStatus:
-                `${response?.status?.title}(${response?.status?.statusCode})` +
-                (response.status?.detail ? `: ${response.status?.detail}` : ''),
-              dhlValidationMessages: parseDhlValidationMessages(response),
-            },
-            deliveryId: delivery.id,
-          },
-        ],
+        actions,
       },
     })
     .execute();
