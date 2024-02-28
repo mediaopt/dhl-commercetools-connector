@@ -9,6 +9,7 @@ import { createApiRoot } from '../client/create.client';
 import CustomError from '../errors/custom.error';
 import {
   Configuration,
+  LabelDataResponse,
   ResponseItem,
   ShipmentsAndLabelsApiFactory,
 } from '../parcel-de-shipping';
@@ -16,6 +17,10 @@ import { AxiosError } from 'axios';
 import { mapCommercetoolsOrderToDHLShipment } from '../utils/map.utils';
 import { SettingsFormDataType } from '../types/index.types';
 import { DHL_DEFAULT_PROFILE } from '../constants';
+import {
+  DHL_DELIVERY_TYPE_KEY,
+  DHL_PARCEL_TYPE_KEY,
+} from '../connector/actions';
 
 const DHL_PARCEL_API_KEY = 'eg391xkOwa007rDuCVJqAo2wzG4pmWI5';
 
@@ -66,7 +71,7 @@ async function storeLabelForOrder(
             custom: {
               type: {
                 typeId: 'type',
-                key: 'dhl-parcel-type',
+                key: DHL_PARCEL_TYPE_KEY,
               },
               fields: {
                 deliveryLabel: label.label?.url,
@@ -95,7 +100,7 @@ export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
   logger.info(`Got Delivery with id ${delivery.id}`);
   const order = await getOrderByDeliveryId(delivery.id);
   logger.info(`Got Order with id ${order.id}`);
-  var shippingMethod = order.shippingInfo?.shippingMethod?.obj;
+  const shippingMethod = order.shippingInfo?.shippingMethod?.obj;
   if (
     !shippingMethod?.custom?.type?.obj?.key.startsWith('dhl-shipping-method-')
   ) {
@@ -133,6 +138,52 @@ function buildApi() {
   );
 }
 
+function parseDhlValidationMessages(response: LabelDataResponse) {
+  if (!response.items || !response.items[0]?.validationMessages) {
+    return undefined;
+  }
+  return response.items[0]?.validationMessages
+    .map(
+      (validationMessage) =>
+        `[${validationMessage.validationState}] ${validationMessage.property}: ${validationMessage.validationMessage}`
+    )
+    .join('; ');
+}
+
+const logDHLResponse = async (
+  response: LabelDataResponse,
+  order: Order,
+  delivery: Delivery
+) => {
+  logger.info('logDHLResponse called');
+  const apiRoot = createApiRoot();
+  return apiRoot
+    .orders()
+    .withId({ ID: order.id })
+    .post({
+      body: {
+        version: order.version,
+        actions: [
+          {
+            action: 'setDeliveryCustomType',
+            type: {
+              typeId: 'type',
+              key: DHL_DELIVERY_TYPE_KEY,
+            },
+            fields: {
+              dhlStatus:
+                `${response?.status?.title}(${response?.status?.statusCode})` +
+                (response.status?.detail ? `: ${response.status?.detail}` : ''),
+              dhlValidationMessages: parseDhlValidationMessages(response),
+            },
+            deliveryId: delivery.id,
+          },
+        ],
+      },
+    })
+    .execute();
+};
+
 const createLabel = async (order: Order, delivery: Delivery) => {
   const settings = await getSettings();
   const api = buildApi();
@@ -155,6 +206,7 @@ const createLabel = async (order: Order, delivery: Delivery) => {
         'URL'
       )
     ).data;
+    await logDHLResponse(response, order, delivery);
     if (response.status?.statusCode === 200 && response.items) {
       return response.items[0];
     }
@@ -164,6 +216,7 @@ const createLabel = async (order: Order, delivery: Delivery) => {
     );
   } catch (e: any) {
     if (e instanceof AxiosError) {
+      await logDHLResponse(e.response?.data, order, delivery);
       logger.info(JSON.stringify(e.response?.data));
     }
     logger.error(e.message);

@@ -20,7 +20,9 @@ import { CustomsDetailsShippingConditionsEnum } from '../parcel-de-shipping';
 const ORDER_MESSAGES_SUBSCRIPTION_KEY =
   'dhl-connector-orderMessagesSubscription';
 
-const DHL_PARCEL_TYPE_KEY = 'dhl-parcel-type';
+export const DHL_PARCEL_TYPE_KEY = 'dhl-parcel-type';
+
+export const DHL_DELIVERY_TYPE_KEY = 'dhl-delivery-type';
 
 const SHIPPING_METHOD_CUSTOM_TYPES = [
   {
@@ -244,6 +246,43 @@ export const createParcelCustomType = async (
         label: {
           en: `DHL Customs Label (for International Shipments)`,
           de: 'DHL Zollinhaltserklärung (für internationale Sendungen)',
+        },
+        type: {
+          name: 'String',
+        },
+        required: false,
+      } as FieldDefinition,
+    ],
+  };
+  await addOrUpdateCustomType(apiRoot, customType);
+};
+
+export const createDeliveryCustomType = async (
+  apiRoot: ByProjectKeyRequestBuilder
+) => {
+  const customType = {
+    key: DHL_DELIVERY_TYPE_KEY,
+    name: {
+      en: 'Custom DHL delivery type',
+    },
+    resourceTypeIds: ['order-delivery'],
+    fieldDefinitions: [
+      {
+        name: `dhlStatus`,
+        label: {
+          en: `DHL Status`,
+          de: 'DHL Status',
+        },
+        type: {
+          name: 'String',
+        },
+        required: false,
+      } as FieldDefinition,
+      {
+        name: `dhlValidationMessages`,
+        label: {
+          en: `DHL Validation Messages`,
+          de: 'DHL Validation Messages',
         },
         type: {
           name: 'String',
