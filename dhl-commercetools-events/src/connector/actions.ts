@@ -74,13 +74,6 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
     name: {
       en: 'DHL Paket International',
     },
-    fieldDefinitions: [],
-  },
-  {
-    key: DHL_SHIPPING_METHOD_WARENPOST,
-    name: {
-      en: 'Warenpost',
-    },
     fieldDefinitions: [
       {
         name: `additionalInsurance`,
@@ -94,6 +87,13 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
         required: false,
       } as FieldDefinition,
     ],
+  },
+  {
+    key: DHL_SHIPPING_METHOD_WARENPOST,
+    name: {
+      en: 'Warenpost',
+    },
+    fieldDefinitions: [],
   },
   {
     key: DHL_SHIPPING_METHOD_WARENPOST_INTERNATIONAL,
