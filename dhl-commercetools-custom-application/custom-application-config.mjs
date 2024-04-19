@@ -39,6 +39,12 @@ const config = {
       labelAllLocales: [],
       permissions: [PERMISSIONS.Manage],
     },
+    {
+      uriPath: 'settings/errors',
+      defaultLabel: 'Error logs',
+      labelAllLocales: [],
+      permissions: [PERMISSIONS.Manage],
+    },
   ],
 };
 

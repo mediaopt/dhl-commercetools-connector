@@ -18,6 +18,7 @@ import { DEFAULT_SETTINGS } from './defaultSettings';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import Address from '../address';
 import Shipments from '../shipments';
+import Errors from '../errors';
 
 const Settings = () => {
   const [isReady, setIsReady] = useState<boolean>(false);
@@ -81,6 +82,9 @@ const Settings = () => {
             </Route>
             <Route path={`${match.path}/shipments`}>
               <Shipments handleChange={handleChange} values={values} />
+            </Route>
+            <Route path={`${match.path}/errors`}>
+              <Errors values={values} />
             </Route>
           </Switch>
         </form>

@@ -13,6 +13,13 @@ export type DhlAddress = {
   email?: string;
 };
 
+export type DHLError = {
+  timestamp: number;
+  level: 'info' | 'warning' | 'error';
+  message: string;
+  id: string;
+};
+
 export type SettingsFormDataType = {
   return: DhlAddress;
   dispatch: DhlAddress;
@@ -23,6 +30,7 @@ export type SettingsFormDataType = {
     unit: 'g' | 'kg';
     fallbackWeight: number;
   };
+  errors?: Array<DHLError>;
 };
 
 type HandleChangeType = {
@@ -41,6 +49,10 @@ export type DHLSettingsType = {
 export type SubSettingsPagePropType = {
   values: SettingsFormDataType;
   handleChange: HandleChangeType;
+};
+
+export type OnlySettingsSubPageType = {
+  values: SettingsFormDataType;
 };
 
 export type FetchedCustomObjectType = {

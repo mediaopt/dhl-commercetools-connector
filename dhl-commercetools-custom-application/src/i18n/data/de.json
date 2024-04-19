@@ -20,6 +20,7 @@
   "Settings.addressSettingsTitle": "Versand- und Retourenadresse",
   "Settings.labelSettings": "Label settings",
   "Settings.onlyAllowValidRoutingCodes": "Nur leitcodierbare Adressen zulassen",
+  "Settings.errorsEmpty": "Keine Logs vorhanden",
   "Settings.weight": "Gewichtsberechnung",
   "Settings.weightAttribute": "Attribut in dem das Gewicht gespeichert ist",
   "Settings.weightAttributeHint": "Optional, leer lassen um Standardgewicht zu verwenden",

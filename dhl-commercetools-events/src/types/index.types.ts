@@ -24,6 +24,13 @@ export type Wrapper = (
   validator: ValidatorFunction
 ) => (value: object) => boolean;
 
+export type DHLError = {
+  timestamp: number;
+  level: 'info' | 'warning' | 'error';
+  message: string;
+  id: string;
+};
+
 export type SettingsFormDataType = {
   return: Shipper;
   dispatch: Shipper;
@@ -34,6 +41,7 @@ export type SettingsFormDataType = {
     unit: WeightUomEnum;
     fallbackWeight: number;
   };
+  errors?: Array<DHLError>;
 };
 
 export type ShippingMethodDHLCustomFields = {
