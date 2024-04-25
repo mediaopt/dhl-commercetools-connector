@@ -52,7 +52,7 @@ function mapReturnAddress(settings: SettingsFormDataType): ContactAddress {
   ) as ContactAddress;
 }
 
-function removeEmptyProperties<T extends Object>(object: T): T {
+function removeEmptyProperties<T extends object>(object: T): T {
   return Object.fromEntries(Object.entries(object).filter(([_, v]) => v)) as T;
 }
 
@@ -94,7 +94,7 @@ function mapCommercetoolsLineItemWeight(
   );
 }
 
-function mapItems(
+export function mapItems(
   order: Order,
   items: DeliveryItem[],
   settings: SettingsFormDataType
@@ -121,10 +121,10 @@ function mapItems(
     .filter((item) => !!item) as Commodity[];
 }
 
-function mapCommercetoolsPrice(price: TypedMoney): Value {
+export function mapCommercetoolsPrice(price: TypedMoney): Value {
   return {
     currency: price.currencyCode as ValueCurrencyEnum,
-    value: price.centAmount * Math.pow(10, -price.fractionDigits || 0),
+    value: price.centAmount / Math.pow(10, price.fractionDigits || 0),
   };
 }
 
@@ -152,7 +152,7 @@ export const mapCommercetoolsOrderToDHLShipment = (
     shipper: mapShipper(settings),
     consignee: mapConsignee(order.shippingAddress),
     services: {
-      dhlRetoure: productReturnProcedureMapping.hasOwnProperty(dhlProduct)
+      dhlRetoure: Object.prototype.hasOwnProperty.call(productReturnProcedureMapping, dhlProduct)
         ? {
             billingNumber: mapReturnBillingNumber(dhlProduct, dhlCustomFields),
             returnAddress: mapReturnAddress(settings),

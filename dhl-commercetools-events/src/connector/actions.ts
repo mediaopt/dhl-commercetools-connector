@@ -15,7 +15,7 @@ import {
   GRAPHQL_CUSTOMOBJECT_KEY_NAME,
   IDENT_CHECK_MINIMUM_AGE_ENUM,
 } from '../constants';
-import { CustomsDetailsShippingConditionsEnum } from '../parcel-de-shipping';
+import { CustomsDetailsShippingConditionsEnum } from '../constants';
 
 const ORDER_MESSAGES_SUBSCRIPTION_KEY =
   'dhl-connector-orderMessagesSubscription';
@@ -24,7 +24,7 @@ export const DHL_PARCEL_TYPE_KEY = 'dhl-parcel-type';
 
 export const DHL_DELIVERY_TYPE_KEY = 'dhl-delivery-type';
 
-const SHIPPING_METHOD_CUSTOM_TYPES = [
+export const SHIPPING_METHOD_CUSTOM_TYPES = [
   {
     key: DHL_SHIPPING_METHOD_DHL_PAKET,
     name: {
@@ -74,6 +74,13 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
     name: {
       en: 'DHL Paket International',
     },
+    fieldDefinitions: [],
+  },
+  {
+    key: DHL_SHIPPING_METHOD_WARENPOST,
+    name: {
+      en: 'Warenpost',
+    },
     fieldDefinitions: [
       {
         name: `additionalInsurance`,
@@ -87,13 +94,6 @@ const SHIPPING_METHOD_CUSTOM_TYPES = [
         required: false,
       } as FieldDefinition,
     ],
-  },
-  {
-    key: DHL_SHIPPING_METHOD_WARENPOST,
-    name: {
-      en: 'Warenpost',
-    },
-    fieldDefinitions: [],
   },
   {
     key: DHL_SHIPPING_METHOD_WARENPOST_INTERNATIONAL,

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { post } from '../controllers/event.controller';
+import { post } from '../controllers/order.controller';
 
 const eventRouter: Router = Router();
 
