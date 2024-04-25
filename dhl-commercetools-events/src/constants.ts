@@ -54,3 +54,11 @@ export const IDENT_CHECK_MINIMUM_AGE_ENUM = {
   A16: 'A16',
   A18: 'A18',
 };
+
+export const CustomsDetailsShippingConditionsEnum = {
+  Ddu: 'DDU',
+  Dap: 'DAP',
+  Ddp: 'DDP',
+  Ddx: 'DDX',
+  Dxv: 'DXV',
+} as const;

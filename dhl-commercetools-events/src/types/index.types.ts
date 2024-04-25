@@ -24,9 +24,22 @@ export type Wrapper = (
   validator: ValidatorFunction
 ) => (value: object) => boolean;
 
+type EmptyShipper = {
+  name1: '';
+  name2?: '';
+  name3?: '';
+  addressStreet: '';
+  addressHouse?: '';
+  postalCode?: '';
+  city: '';
+  country: '';
+  contactName?: '';
+  email?: '';
+};
+
 export type SettingsFormDataType = {
-  return: Shipper;
-  dispatch: Shipper;
+  return: Shipper | EmptyShipper;
+  dispatch: Shipper | EmptyShipper;
   returnIsDispatch: boolean;
   onlyAllowValidRoutingCodes: boolean;
   weight: {

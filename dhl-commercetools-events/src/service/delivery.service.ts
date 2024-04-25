@@ -54,7 +54,7 @@ export const handleParcelRemovedMessage = async (parcel: Parcel) => {
   if (!parcel?.custom?.fields?.dhlShipmentNumber) {
     return;
   }
-  await deleteLabel(parcel?.custom?.fields?.dhlShipmentNumber);
+  return await deleteLabel(parcel?.custom?.fields?.dhlShipmentNumber);
 };
 
 export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
