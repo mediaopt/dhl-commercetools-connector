@@ -22,6 +22,7 @@ const renderApp = (options: Partial<TRenderAppWithReduxOptions> = {}) => {
 };
 
 it('should render welcome page', async () => {
-  renderApp();
-  await screen.findByText('Develop applications for the Merchant Center');
+  const result = renderApp();
+  expect(result.history.location.pathname).toEqual('/my-project/dhl-connector');
+  await screen.findByText('DHL Products & Services Commercetools');
 });

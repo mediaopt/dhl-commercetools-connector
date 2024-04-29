@@ -4,7 +4,7 @@ import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/appli
 export const entryPointUriPath =
   typeof window === 'undefined'
     ? process.env.ENTRY_POINT_URI_PATH
-    : (window as any).app.entryPointUriPath;
+    : (window as any).app.entryPointUriPath ?? 'dhl-connector';
 
 export const PERMISSIONS = entryPointUriPathToPermissionKeys(entryPointUriPath);
 
