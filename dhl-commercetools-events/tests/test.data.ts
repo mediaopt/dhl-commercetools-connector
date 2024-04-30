@@ -310,18 +310,6 @@ export const order: Order = {
         centAmount: 200,
         fractionDigits: 2,
       },
-      taxPortions: [
-        {
-          rate: 0.19,
-          amount: {
-            type: 'centPrecision',
-            currencyCode: 'EUR',
-            centAmount: 32,
-            fractionDigits: 2,
-          },
-          name: 'Standard VAT for Germany',
-        },
-      ],
       totalTax: {
         type: 'centPrecision',
         currencyCode: 'EUR',
@@ -440,8 +428,6 @@ export const order: Order = {
         availability: {
           isOnStock: true,
           availableQuantity: 3000,
-          version: 1,
-          id: 'cc9c7143-34e4-4921-9b3f-d72ec8318644',
         },
       },
       price: {
@@ -498,18 +484,6 @@ export const order: Order = {
           centAmount: 3299,
           fractionDigits: 2,
         },
-        taxPortions: [
-          {
-            rate: 0.19,
-            amount: {
-              type: 'centPrecision',
-              currencyCode: 'EUR',
-              centAmount: 527,
-              fractionDigits: 2,
-            },
-            name: 'Standard VAT for Germany',
-          },
-        ],
         totalTax: {
           type: 'centPrecision',
           currencyCode: 'EUR',
@@ -522,7 +496,6 @@ export const order: Order = {
   ],
   customLineItems: [],
   discountCodes: [],
-  directDiscounts: [],
   cart: {
     typeId: 'cart',
     id: '6bc5da53-652e-4d15-bc91-ee4175cffa78',
