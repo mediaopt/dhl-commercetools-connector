@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { post } from '../controllers/order.controller';
+import { handleOrderMessage } from '../controllers/order.controller';
 
 const eventRouter: Router = Router();
 
-eventRouter.post('/', post);
+eventRouter.post('/', handleOrderMessage);
 
 export default eventRouter;

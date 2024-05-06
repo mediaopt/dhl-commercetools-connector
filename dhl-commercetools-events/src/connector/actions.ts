@@ -14,8 +14,8 @@ import {
   GRAPHQL_CUSTOMOBJECT_CONTAINER_NAME,
   GRAPHQL_CUSTOMOBJECT_KEY_NAME,
   IDENT_CHECK_MINIMUM_AGE_ENUM,
+  CustomsDetailsShippingConditionsEnum
 } from '../constants';
-import { CustomsDetailsShippingConditionsEnum } from '../constants';
 
 const ORDER_MESSAGES_SUBSCRIPTION_KEY =
   'dhl-connector-orderMessagesSubscription';

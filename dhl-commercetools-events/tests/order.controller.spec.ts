@@ -9,7 +9,7 @@ jest.mock('../src/service/delivery.service', () => ({
   handleParcelRemovedMessage: messageHandler,
 }));
 
-import { post } from '../src/controllers/order.controller';
+import { handleOrderMessage } from '../src/controllers/order.controller';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -34,7 +34,7 @@ describe('Testing order controller message handling', () => {
         send: jest.fn(),
       })),
     } as unknown as Response;
-    await post(request, response, jest.fn() as NextFunction);
+    await handleOrderMessage(request, response, jest.fn() as NextFunction);
     expect(messageHandler).toBeCalledTimes(1);
     expect(response.status).toBeCalledWith(204);
   });
@@ -56,7 +56,7 @@ describe('Testing order controller message handling', () => {
         send: jest.fn(),
       })),
     } as unknown as Response;
-    await post(request, response, jest.fn() as NextFunction);
+    await handleOrderMessage(request, response, jest.fn() as NextFunction);
     expect(messageHandler).toBeCalledTimes(1);
     expect(response.status).toBeCalledWith(204);
   });
@@ -79,7 +79,7 @@ describe('Testing order controller message handling', () => {
         send: jest.fn(),
       })),
     } as unknown as Response;
-    await post(request, response, jest.fn() as NextFunction);
+    await handleOrderMessage(request, response, jest.fn() as NextFunction);
     expect(messageHandler).toBeCalledTimes(0);
     expect(response.status).toBeCalledWith(204);
   });
@@ -106,7 +106,7 @@ describe('Testing order controller message handling', () => {
       })),
     } as unknown as Response;
     const nextMock: NextFunction = jest.fn();
-    await post(request as unknown as Request, response, nextMock);
+    await handleOrderMessage(request as unknown as Request, response, nextMock);
     expect(messageHandler).toBeCalledTimes(0);
     expect(response.status).toBeCalledTimes(0);
     expect(nextMock).toBeCalledTimes(1);

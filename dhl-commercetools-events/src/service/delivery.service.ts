@@ -21,8 +21,9 @@ import {
   DHL_PARCEL_TYPE_KEY,
 } from '../connector/actions';
 import { OrderUpdateAction } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/order';
+import {BASE_PATH} from "../parcel-de-shipping/base";
 
-const DHL_PARCEL_API_KEY = 'eg391xkOwa007rDuCVJqAo2wzG4pmWI5';
+const DHL_PARCEL_API_KEY = 'FeEGd62P4FM8wxzh0pNH607HlNGgATYQ';
 
 async function getOrderByDeliveryId(deliveryId: string) {
   const apiRoot = await createApiRoot();
@@ -40,7 +41,7 @@ async function getOrderByDeliveryId(deliveryId: string) {
       })
       .execute()
   ).body;
-  if (orders.total !== 1) {
+  if (orders.total === 0) {
     throw new CustomError(
       500,
       `Could not find order for delivery with id ${deliveryId}`
@@ -72,7 +73,7 @@ export const handleDeliveryAddedMessage = async (delivery: Delivery) => {
 };
 
 async function getSettings(): Promise<SettingsFormDataType> {
-  const apiRoot = await createApiRoot();
+  const apiRoot = createApiRoot();
   return (
     await apiRoot
       .customObjects()
@@ -93,7 +94,7 @@ function buildApi() {
       apiKey: DHL_PARCEL_API_KEY,
     } as Configuration,
     process.env.DHL_PARCEL_ENVIRONMENT === 'SANDBOX'
-      ? 'https://api-sandbox.dhl.com/parcel/de/shipping/v2'
+      ? BASE_PATH.replace('https://api-eu.dhl.com/', 'https://api-sandbox.dhl.com/')
       : undefined
   );
 }
@@ -168,9 +169,9 @@ const logDHLResponse = async (
 };
 
 const createLabel = async (order: Order, delivery: Delivery) => {
-  const settings = await getSettings();
-  const api = buildApi();
   try {
+    const settings = await getSettings();
+    const api = buildApi();
     const shipment = mapCommercetoolsOrderToDHLShipment(
       order,
       delivery,
@@ -203,6 +204,7 @@ const createLabel = async (order: Order, delivery: Delivery) => {
       logger.info(JSON.stringify(e.response?.data));
     }
     logger.error(e.message);
+    logger.info(e.stack);
     throw e;
   }
 };
@@ -230,6 +232,7 @@ export const deleteLabel = async (shipmentNumber: string) => {
       logger.info(JSON.stringify(e.response?.data));
     }
     logger.error(e.message);
+    logger.info(e.stack);
     throw e;
   }
 };

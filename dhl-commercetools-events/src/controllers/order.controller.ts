@@ -36,7 +36,7 @@ function parseRequest(request: Request) {
  * @param {NextFunction} next
  * @returns
  */
-export const post = async (
+export const handleOrderMessage = async (
   request: Request,
   response: Response,
   next: NextFunction
@@ -58,8 +58,10 @@ export const post = async (
     }
   } catch (error) {
     if (error instanceof Error) {
+      logger.error(error.message);
       next(new CustomError(400, error.message));
     } else {
+      logger.error(JSON.stringify(error));
       next(error);
     }
   }
