@@ -1,0 +1,73 @@
+import {
+  screen,
+  mapResourceAccessToAppliedPermissions,
+  type TRenderAppWithReduxOptions,
+} from '@commercetools-frontend/application-shell/test-utils';
+import { renderApplicationWithRedux } from '../../test-utils';
+import { entryPointUriPath, PERMISSIONS } from '../../constants';
+import ApplicationRoutes from '../../routes';
+
+const renderApp = (options: Partial<TRenderAppWithReduxOptions> = {}) => {
+  const route = options.route || `/my-project/${entryPointUriPath}`;
+  const { history } = renderApplicationWithRedux(<ApplicationRoutes />, {
+    route,
+    project: {
+      allAppliedPermissions: mapResourceAccessToAppliedPermissions([
+        PERMISSIONS.View,
+      ]),
+    },
+    ...options,
+  });
+  return { history };
+};
+
+it('should render welcome page', async () => {
+  const result = renderApp();
+  expect(result.history.location.pathname).toEqual('/my-project/dhl-connector');
+  await screen.findByText('DHL Products & Services Commercetools');
+});
+
+describe('The logo', () => {
+  beforeEach(() => {
+    renderApp();
+  });
+
+  test('Logo has alt tag', async () => {
+    await screen.findAllByAltText('dhl logo');
+  });
+
+  test('image has correct src attribute', () => {
+    const logo = document.querySelector('img') as HTMLImageElement;
+    expect(logo.src).toBeDefined();
+  });
+});
+
+describe('All links are present', () => {
+  beforeEach(() => {
+    renderApp();
+  });
+
+  /*  test('The business portal is linked', async () => {
+    const link = (await screen.findByText('DHLs Business Portal')).closest(
+      'a'
+    ) as HTMLAnchorElement;
+    expect(link).toBeDefined();
+    expect(link.href).toMatch('https://geschaeftskunden.dhl.de/');
+  });*/
+
+  test('Addresses are linked', async () => {
+    const link = (await screen.findByText('Addresses')).closest(
+      'a'
+    ) as HTMLAnchorElement;
+    expect(link).toBeDefined();
+    expect(link.href).toContain('settings/address');
+  });
+
+  test('Shipment settings are linked', async () => {
+    const link = (await screen.findByText('Shipment settings')).closest(
+      'a'
+    ) as HTMLAnchorElement;
+    expect(link).toBeDefined();
+    expect(link.href).toContain('settings/shipments');
+  });
+});

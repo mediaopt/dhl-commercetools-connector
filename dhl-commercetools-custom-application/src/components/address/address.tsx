@@ -11,11 +11,13 @@ const Address = ({ values, handleChange }: SubSettingsPagePropType) => {
   return (
     <SubPageWrapper>
       <Text.Headline as="h2" intlMessage={messages.addressSettingsTitle} />
-      <AddressMask
-        values={values.dispatch}
-        handleChange={handleChange}
-        type="dispatch"
-      />
+      <div id="dispatchAddressMask">
+        <AddressMask
+          values={values.dispatch}
+          handleChange={handleChange}
+          type="dispatch"
+        />
+      </div>
       <CheckboxInput
         isChecked={values.returnIsDispatch}
         onChange={handleChange}
@@ -25,11 +27,13 @@ const Address = ({ values, handleChange }: SubSettingsPagePropType) => {
         <FormattedMessage id="Settings.returnIsDispatch" />
       </CheckboxInput>
       {!values.returnIsDispatch && (
-        <AddressMask
-          values={values.return}
-          type="return"
-          handleChange={handleChange}
-        />
+        <div id="returnAddressMask">
+          <AddressMask
+            values={values.return}
+            type="return"
+            handleChange={handleChange}
+          />
+        </div>
       )}
     </SubPageWrapper>
   );

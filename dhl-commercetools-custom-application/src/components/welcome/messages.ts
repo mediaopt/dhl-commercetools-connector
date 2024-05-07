@@ -26,4 +26,12 @@ export default defineMessages({
     defaultMessage:
       'Here you have the settings for shipments like weight calculation or label generation.',
   },
+  newCustomerRegistration: {
+    id: 'Welcome.newCustomerRegistration',
+    defaultMessage: 'Here you can register to use DHLs services: ',
+  },
+  newCustomerRegistrationLink: {
+    id: 'Welcome.newCustomerRegistrationLink',
+    defaultMessage: 'DHLs Business Customer Portal',
+  },
 });
