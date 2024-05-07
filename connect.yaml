@@ -17,7 +17,7 @@ deployAs:
         - key: DHL_PARCEL_ENVIRONMENT
           description: Environment for DHL (SANDBOX or PRODUCTION)
           required: true
-          default: SANDBOX
+          default: PRODUCTION
       securedConfiguration:
         - key: CTP_PROJECT_KEY
           description: commercetools Composable Commerce project key
@@ -48,3 +48,4 @@ deployAs:
         - key: ENTRY_POINT_URI_PATH
           description: The Application entry point URI path
           required: true
+          default: dhl-connector
