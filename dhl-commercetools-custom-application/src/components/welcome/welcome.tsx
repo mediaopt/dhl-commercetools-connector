@@ -88,6 +88,9 @@ const Welcome = () => {
         <Grid.Item>
           <Text.Detail>
             <FormattedMessage
+              defaultMessage={intl.formatMessage(
+                messages.welcomeNewCustomerRegistration
+              )}
               id="Welcome.newCustomerRegistration"
               values={{
                 link: (
@@ -96,7 +99,12 @@ const Welcome = () => {
                     to={'https://geschaeftskunden.dhl.de/'}
                   >
                     <br />
-                    <FormattedMessage id="Welcome.newCustomerRegistrationLink" />
+                    <FormattedMessage
+                      defaultMessage={intl.formatMessage(
+                        messages.welcomeNewCustomerRegistrationLink
+                      )}
+                      id="Welcome.newCustomerRegistrationLink"
+                    />
                   </Link>
                 ),
               }}
