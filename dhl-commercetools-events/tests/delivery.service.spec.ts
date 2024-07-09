@@ -40,6 +40,9 @@ const apiRoot: any = {
       post: jest.fn(() => ({
         execute: jest.fn(),
       })),
+      get: jest.fn(() => ({
+        execute: jest.fn(() => ({ body: order })),
+      })),
     })),
   })),
   customObjects: jest.fn(() => ({
