@@ -62,7 +62,6 @@
     "@commercetools/sync-actions": "^5.14.0",
     "@emotion/react": "^11.11.1",
     "@formatjs/cli": "6.1.1",
-    "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@jest/types": "29.5.0",
     "@manypkg/cli": "0.21.4",
     "@testing-library/dom": "^9.3.1",

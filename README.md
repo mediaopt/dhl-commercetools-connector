@@ -1,3 +1,7 @@
+![build](https://github.com/mediaopt/dhl-commercetools-connector/actions/workflows/build.yml/badge.svg)
+![test](https://github.com/mediaopt/dhl-commercetools-connector/actions/workflows/test.yml/badge.svg)
+![audit](https://github.com/mediaopt/dhl-commercetools-connector/actions/workflows/audit.yml/badge.svg)
+
 # dhl-commercetools-custom-application
 
 ## Introduction

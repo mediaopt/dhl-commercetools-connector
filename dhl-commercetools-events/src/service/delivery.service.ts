@@ -156,12 +156,15 @@ const logDHLResponse = async (
       },
     } as OrderAddParcelToDeliveryAction);
   }
+  const currentOrderVersion =
+      (await apiRoot.orders().withId({ ID: order.id }).get().execute())
+          .body.version;
   return apiRoot
     .orders()
     .withId({ ID: order.id })
     .post({
       body: {
-        version: order.version,
+        version: currentOrderVersion,
         actions,
       },
     })
